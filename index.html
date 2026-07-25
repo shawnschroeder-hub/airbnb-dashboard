@@ -261,6 +261,15 @@
     Estimates are AirDNA market-average screens — Rentalizer + inspection before any offer; verify each town's STR permit rules.</div>
 </section>
 
+<section id="adus">
+  <div class="eyebrow">Second dwellings</div>
+  <h2 class="display">ADU properties — house + separate living unit</h2>
+  <p class="sub">Every property with a true accessory dwelling: guest houses, in-law suites, coach houses, second
+    cottages, and related-living layouts. (Pure multifamily buildings — 2-flats and up — stay in Tier A but not here.)
+    Ranked by yield in the current tab's lens; both units count toward revenue, per your rule.</p>
+  <div class="grid" id="adus-grid" style="margin-top:16px"></div>
+</section>
+
 <section id="distress">
   <div class="eyebrow" style="color:var(--crit)">Distress deals</div>
   <h2 class="display">Foreclosures &amp; pre-foreclosures — top 10</h2>
@@ -506,6 +515,10 @@ function renderAll(){
   put(p=>p.cash,"#tierCash","#tallyCash");
   put(p=>p.tier==="W","#tierW","#tallyW");
   $("#f-count").textContent=f.length+" of "+P.length+" shown";
+  /* ADU section: true accessory-dwelling properties, all of them, by yield */
+  const adus=P.filter(p=>p.type==="ADU"&&p.price&&p.status!=="offmarket").sort((a,b)=>(yieldOf(b)||0)-(yieldOf(a)||0));
+  $("#adus").style.display=adus.length?"":"none";
+  $("#adus-grid").innerHTML=adus.map(p=>cardHTML(p)).join("");
   /* distress: foreclosures & pre-foreclosures, top 10 by yield */
   const dis=P.filter(p=>p.distress&&p.price).sort((a,b)=>yieldOf(b)-yieldOf(a)).slice(0,10);
   $("#distress").style.display=dis.length?"":"none";
