@@ -515,7 +515,9 @@ function renderAll(){
   $("#fav-grid").innerHTML = favs.sort((a,b)=>(yieldOf(b)||0)-(yieldOf(a)||0)).map(p=>cardHTML(p,{notes:true})).join("");
   /* top10 */
   const tierName={A:"Tier A — 2nd dwelling",B:"Tier B — single-family",C:"Tier C — flagged/close",W:"Watch"};
-  $("#top10-tbody").innerHTML = priced.slice().sort((a,b)=>yieldOf(b)-yieldOf(a)).slice(0,10).map((p,i)=>{
+  /* status:"verify" means the records contradict each other — those must never headline
+     the leaderboard (they stay visible on their own cards, with their flags). 2026-08-20 */
+  $("#top10-tbody").innerHTML = priced.filter(p=>p.status!=="verify").slice().sort((a,b)=>yieldOf(b)-yieldOf(a)).slice(0,10).map((p,i)=>{
     const extra = p.flag ? " · ⚑ "+p.flag : (p.cond==="unk" ? " · verify condition" : " · turnkey-verified");
     return `<tr><td class="num" style="font-weight:700">${i+1}</td><td>${starCell(p)}</td>
       <td>${p.addr} · ${p.town}</td><td class="num">${fmt$(p.price)}</td>
