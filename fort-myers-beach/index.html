@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>216 Fairweather Ln — Fort Myers Beach Deal Check</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏝️</text></svg>">
+<style>
+  :root{
+    --ground:#f2f5f3; --panel:#fcfcfb; --panel-2:#f7f9f7;
+    --ink:#14231f; --ink-2:#4d5c56; --ink-3:#84918b;
+    --grid:#e1e4df; --baseline:#c2c8c2; --ring:rgba(20,35,31,.10);
+    --accent:#0f7c8c; --accent-ink:#0b5f6c; --gold:#a97f10; --goldbg:rgba(169,127,16,.08);
+    --pass:#0ca30c; --pass-text:#006300; --flag:#b45309; --crit:#d03b3b;
+    --wash:rgba(15,124,140,.06);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ground:#0f1614; --panel:#1a1a19; --panel-2:#161d1a;
+      --ink:#e9efec; --ink-2:#aeb9b3; --ink-3:#7d8983;
+      --grid:#2c2c2a; --baseline:#3a403c; --ring:rgba(255,255,255,.12);
+      --accent:#3baabb; --accent-ink:#6cc4d2; --gold:#e0b241; --goldbg:rgba(224,178,65,.10);
+      --pass:#25c025; --pass-text:#4ed24e; --flag:#e8a15c; --crit:#e66767;
+      --wash:rgba(59,170,187,.08);
+      color-scheme:dark;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font:16px/1.55 system-ui,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+  .display{font-family:Rockwell,"Rockwell Nova","Roboto Slab",Georgia,serif}
+  .mono{font-family:"Cascadia Mono",Consolas,ui-monospace,monospace}
+  a{color:var(--accent-ink)}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+  .eyebrow{font-family:"Cascadia Mono",Consolas,ui-monospace,monospace;font-size:11px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);font-weight:600}
+  section{margin:44px 0}
+  h1,h2,h3{text-wrap:balance;margin:0}
+  h1{font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.01em}
+  h2{font-size:26px;line-height:1.2;margin:6px 0 4px}
+  .sub{color:var(--ink-2);max-width:70ch;margin:6px 0 0}
+  header.mast{border-bottom:2px solid var(--ink);padding:26px 0 22px;margin-bottom:8px}
+  .mast-meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;color:var(--ink-2);font-size:13.5px}
+  .mast-meta b{color:var(--ink)}
+  .snapbanner{background:var(--wash);border:1.5px solid var(--accent);border-radius:8px;
+    padding:10px 16px;margin:16px auto 0;max-width:1100px;font-size:13.5px;color:var(--ink-2);
+    display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .snapbanner a{font-weight:700;word-break:break-all}
+  .copybtn{border:1.5px solid var(--accent);background:var(--panel);color:var(--accent-ink);
+    border-radius:6px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer}
+  .copybtn:hover{background:var(--accent);color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:22px 0 0}
+  .stat{background:var(--panel);border:1px solid var(--ring);border-radius:6px;padding:14px 16px}
+  .stat .k{font-size:12px;color:var(--ink-2);letter-spacing:.04em;text-transform:uppercase}
+  .stat .v{font-size:26px;font-weight:700;margin-top:2px}
+  .stat .v small{font-size:14px;font-weight:600;color:var(--ink-2)}
+  .stat .d{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+  .v.bad{color:var(--crit)} .v.good{color:var(--pass-text)} .v.warn{color:var(--flag)}
+  .panel{background:var(--panel);border:1px solid var(--ring);border-radius:8px;padding:18px 20px}
+  .panel.verdict{border-left:5px solid var(--flag)}
+  .panel.gate{border-left:5px solid var(--crit)}
+  .panel.upside{border-left:5px solid var(--accent)}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .badge{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    padding:3px 8px;border-radius:4px;border:1px solid var(--ring);color:var(--ink-2);background:var(--panel-2)}
+  .badge.type{color:var(--accent-ink);border-color:var(--accent);background:var(--wash)}
+  .badge.ok{color:var(--pass-text);border-color:var(--pass)}
+  .badge.warn{color:var(--flag);border-color:var(--flag)}
+  .badge.bad{color:var(--crit);border-color:var(--crit)}
+  .rlink{display:inline-block;padding:9px 16px;background:var(--wash);border:1.5px solid var(--accent);
+    border-radius:6px;color:var(--accent-ink);font-weight:700;font-size:13.5px;
+    text-decoration:none;text-align:center;margin-top:10px}
+  .rlink:hover{background:var(--accent);color:#fff}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th{font-family:"Cascadia Mono",Consolas,ui-monospace,monospace;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-2);text-align:left;padding:8px 10px;border-bottom:2px solid var(--ink)}
+  td{padding:9px 10px;border-bottom:1px solid var(--grid);vertical-align:top}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr.hl td{background:var(--wash);font-weight:700}
+  .tblwrap{overflow-x:auto}
+  .neg{color:var(--crit);font-weight:700}
+  .pos{color:var(--pass-text);font-weight:700}
+  .chart-note{font-size:12.5px;color:var(--ink-3)}
+  svg text{font-family:"Cascadia Mono",Consolas,ui-monospace,monospace;fill:var(--ink-3);font-size:11px}
+  svg .dl{fill:var(--ink);font-size:12px;font-weight:700}
+  svg .lbl{fill:var(--ink-2);font-size:12px}
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+  ul.tight{margin:8px 0 0;padding-left:20px}
+  ul.tight li{margin:6px 0}
+  .check li{margin:9px 0}
+  .foot{border-top:2px solid var(--ink);margin-top:52px;padding:18px 0 40px;font-size:13px;color:var(--ink-3)}
+  .comp{font-size:13.5px;color:var(--ink-2)}
+  .comp b{color:var(--ink)}
+  .money{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+
+<div class="snapbanner wrap">
+  <span>🔗 Shareable link:</span>
+  <a id="selflink" href="https://shawnschroeder-hub.github.io/airbnb-dashboard/fort-myers-beach/">shawnschroeder-hub.github.io/airbnb-dashboard/fort-myers-beach/</a>
+  <button class="copybtn" onclick="copyLink(this)">Copy link</button>
+  <span style="flex-basis:100%;font-size:12px;color:var(--ink-3)">No login needed — works on any phone or computer.</span>
+</div>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyebrow">Single-property deal check · prepared for Paul Torstrick · August 31, 2026</div>
+  <h1 class="display">216 Fairweather Ln, Fort Myers Beach, FL 33931</h1>
+  <div class="mast-meta">
+    <span><b>$675,000</b> asking (cut from $699K on 6/30)</span>
+    <span><b>3 bed / 2 bath</b> · 1,120 sqft · built 1962</span>
+    <span><b>Furnished</b> · detached 2-car garage + guest quarters</span>
+    <span><b>84 days</b> on market · MLS 2026025254</span>
+  </div>
+  <div class="badges">
+    <span class="badge type">Concrete block · survived Ian</span>
+    <span class="badge type">5–10 min walk to beach</span>
+    <span class="badge ok">No HOA</span>
+    <span class="badge warn">FEMA Zone AE flood zone</span>
+    <span class="badge warn">Weekly-rental status: verify with town</span>
+  </div>
+  <a class="rlink" href="https://www.google.com/search?q=site%3Arealtor.com+%22216+Fairweather+Ln%22+Fort+Myers+Beach" target="_blank" rel="noopener">Find on Realtor.com ↗</a>
+</header>
+
+<section>
+  <div class="stats">
+    <div class="stat"><div class="k">Asking price</div><div class="v money">$675,000</div><div class="d">Sold for the same $675K in Jan 2022 (pre-Ian)</div></div>
+    <div class="stat"><div class="k">Realistic Airbnb revenue</div><div class="v money">$50,900<small>/yr</small></div><div class="d">Comp-verified, this house's class — not the market headline</div></div>
+    <div class="stat"><div class="k">Monthly yield</div><div class="v warn">0.63%</div><div class="d">Shawn's screen target is 1.0%/mo — this misses it</div></div>
+    <div class="stat"><div class="k">Cash flow (financed)</div><div class="v bad money">−$1,749<small>/mo</small></div><div class="d">20% down, 30yr @ 7.5% — loses money every month</div></div>
+    <div class="stat"><div class="k">Cash flow (paid cash)</div><div class="v money">+$2,027<small>/mo</small></div><div class="d">≈ 3.5% return on ~$703K cash in</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="panel verdict">
+    <div class="eyebrow">The bottom line</div>
+    <h2 class="display">A great beach house. A tough investment at $675K.</h2>
+    <p class="sub">Paul — the house itself checks out: solid 1962 concrete block that made it through Ian, updated interior, sold furnished, no HOA, and a real walk-to-beach location in the weekly-rental part of the island. But run as an Airbnb, a realistic year is about <b>$50,900 of rental revenue</b>, and after taxes, insurance, utilities and upkeep the property nets about <b>$24,300 a year before any mortgage</b>. Finance it with 20% down at today's ~7.5% investment rates and it <b>loses about $1,750 every month</b>. Pay all cash and it earns about a <b>3.5% return</b> — it pays its own bills and throws off some income, but the return is modest for $700K+ of cash. The numbers only turn positive with financing somewhere near <b>$400–425K</b>, which is far below asking. If you want it as a family beach house that mostly pays for itself when you're not there, it works. As a pure money-maker, it doesn't — not at this price.</p>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Deal analyzer · comp-verified</div>
+  <h2 class="display">The monthly math at $675,000</h2>
+  <p class="sub">Nightly rates come from live Airbnb listings of the same class pulled Aug 31 — updated 3-bedroom houses near the beach <i>without</i> a pool — cross-checked against AirDNA market data (the blended estimate lands within 6% of what the average Fort Myers Beach listing actually earned). Full workbook: Deal Analyzer #108.</p>
+  <div class="two" style="margin-top:16px">
+    <div class="panel">
+      <div class="eyebrow">Money in (average month)</div>
+      <div class="tblwrap"><table>
+        <tr><td>Winter weeks (Dec–May): $280/night base, 69% booked</td><td class="num money">$2,938</td></tr>
+        <tr><td>Summer/fall weeks (Jun–Nov): $190/night base, 45% booked</td><td class="num money">$1,300</td></tr>
+        <tr class="hl"><td>Rental revenue</td><td class="num money">$4,238</td></tr>
+        <tr><td colspan="2" class="chart-note">≈ 27 weekly stays a year. Cleaning fees ($325/turn) are charged to guests and paid to the cleaner — a wash.</td></tr>
+      </table></div>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Money out (average month)</div>
+      <div class="tblwrap"><table>
+        <tr><td>Property taxes (reset on sale — est. $8,800/yr)</td><td class="num money">$733</td></tr>
+        <tr><td>Insurance — wind + flood, Zone AE (est. $7,000/yr)</td><td class="num money">$583</td></tr>
+        <tr><td>Utilities, lawn, supplies, maintenance</td><td class="num money">$895</td></tr>
+        <tr><td>Mortgage — $540K loan, 30yr @ 7.5%</td><td class="num money">$3,776</td></tr>
+        <tr class="hl"><td>Total costs</td><td class="num money">$5,987</td></tr>
+        <tr class="hl"><td>Net each month</td><td class="num neg">−$1,749</td></tr>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Price sensitivity</div>
+  <h2 class="display">What price would make it cash-flow?</h2>
+  <p class="sub">Same house, same revenue — only the purchase price (and the loan and taxes that follow it) changes. 20% down, 30 years, 7.5%.</p>
+  <div class="panel" style="margin-top:14px"><div class="tblwrap">
+    <table>
+      <tr><th>Purchase price</th><th class="num">Monthly cash flow</th><th>Read</th></tr>
+      <tr class="hl"><td class="money">$675,000 (asking)</td><td class="num neg">−$1,749</td><td>Loses $21K/yr</td></tr>
+      <tr><td class="money">$600,000</td><td class="num neg">−$1,246</td><td>Still deep red</td></tr>
+      <tr><td class="money">$500,000</td><td class="num neg">−$579</td><td>Closer, still red</td></tr>
+      <tr><td class="money">$450,000</td><td class="num neg">−$245</td><td>Nearly there</td></tr>
+      <tr><td class="money">≈$410,000</td><td class="num pos">≈ $0</td><td>Financed break-even</td></tr>
+    </table>
+  </div>
+  <p class="chart-note" style="margin-top:8px">Seller context: bought Jan 2022 for $675,000 (the pre-Ian peak), listed 84 days with one $24K cut. Lee County will reassess taxes near the sale price — the $7,059 on the listing becomes roughly $8,800 for a new buyer.</p>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">AirDNA · what Airbnbs actually make nearby</div>
+  <h2 class="display">The 12-mile picture</h2>
+  <p class="sub">Average earnings per active short-term rental, trailing 12 months (AirDNA, updated Aug 25, 2026). Fort Myers Beach is the strongest market in the ring — the island is where the money is, and supply is still 31% below last year after the Ian rebuild, which is why revenue per listing jumped 74%.</p>
+  <div class="panel" style="margin-top:14px">
+    <svg viewBox="0 0 900 300" role="img" aria-label="Average annual revenue per listing by market">
+      <line x1="150" y1="20" x2="150" y2="260" stroke="var(--baseline)"/>
+      <g>
+        <text x="140" y="47" text-anchor="end" class="lbl">Fort Myers Beach</text>
+        <rect x="150" y="32" width="618" height="24" fill="var(--accent)" rx="3"/>
+        <text x="776" y="49" class="dl">$61.8K</text>
+        <text x="140" y="87" text-anchor="end" class="lbl">Sanibel</text>
+        <rect x="150" y="72" width="616" height="24" fill="var(--baseline)" rx="3"/>
+        <text x="774" y="89" class="dl">$61.6K</text>
+        <text x="140" y="127" text-anchor="end" class="lbl">Estero</text>
+        <rect x="150" y="112" width="484" height="24" fill="var(--baseline)" rx="3"/>
+        <text x="642" y="129" class="dl">$48.4K</text>
+        <text x="140" y="167" text-anchor="end" class="lbl">Cape Coral</text>
+        <rect x="150" y="152" width="374" height="24" fill="var(--baseline)" rx="3"/>
+        <text x="532" y="169" class="dl">$37.4K</text>
+        <text x="140" y="207" text-anchor="end" class="lbl">Fort Myers</text>
+        <rect x="150" y="192" width="317" height="24" fill="var(--baseline)" rx="3"/>
+        <text x="475" y="209" class="dl">$31.7K</text>
+        <text x="140" y="247" text-anchor="end" class="lbl">St. James City</text>
+        <rect x="150" y="232" width="310" height="24" fill="var(--baseline)" rx="3"/>
+        <text x="468" y="249" class="dl">$31.0K</text>
+      </g>
+    </svg>
+    <div class="chart-note">Bar = average annual revenue per active listing. $10K ≈ 100px.</div>
+  </div>
+  <div class="panel" style="margin-top:14px"><div class="tblwrap">
+    <table>
+      <tr><th>Market</th><th class="num">Active listings</th><th class="num">Avg revenue/yr</th><th class="num">Occupancy</th><th class="num">Avg daily rate</th><th class="num">RevPAR</th><th class="num">Market score</th></tr>
+      <tr class="hl"><td>Fort Myers Beach <span class="badge type">this property</span></td><td class="num">1,780</td><td class="num">$61.8K</td><td class="num">57%</td><td class="num">$382</td><td class="num">$218</td><td class="num">56</td></tr>
+      <tr><td>Sanibel (~7 mi)</td><td class="num">1,479</td><td class="num">$61.6K</td><td class="num">57%</td><td class="num">$374</td><td class="num">$214</td><td class="num">71</td></tr>
+      <tr><td>Estero (~11 mi)</td><td class="num">989</td><td class="num">$48.4K</td><td class="num">59%</td><td class="num">$279</td><td class="num">$165</td><td class="num">46</td></tr>
+      <tr><td>Cape Coral (~10 mi)</td><td class="num">727</td><td class="num">$37.4K</td><td class="num">56%</td><td class="num">$223</td><td class="num">$125</td><td class="num">55</td></tr>
+      <tr><td>Fort Myers (~11 mi)</td><td class="num">1,773</td><td class="num">$31.7K</td><td class="num">61%</td><td class="num">$169</td><td class="num">$104</td><td class="num">46</td></tr>
+      <tr><td>St. James City (~10 mi, by water)</td><td class="num">252</td><td class="num">$31.0K</td><td class="num">52%</td><td class="num">$194</td><td class="num">$101</td><td class="num">44</td></tr>
+    </table>
+  </div>
+  <p class="chart-note" style="margin-top:8px">⚠️ The $61.8K island average is pulled up by gulf-front condos, new elevated builds and pool homes. An ordinary 3-bedroom without a pool books well below it — that's why this analysis prices the house from its own comp class ($50.9K), not the market average. Fort Myers Beach market score: 56/100 (demand 69 · seasonality 51 · revenue growth 80 · investability 60 · regulation 63).</p>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Live comp evidence · pulled Aug 31, 2026</div>
+  <h2 class="display">What a week actually costs guests</h2>
+  <p class="sub">Real Airbnb asking prices for 7-night stays, all fees included. Left: peak winter week (Feb 6–13, 2027). Right: off-season week (Sep 19–26, 2026). The house's class is the first group — these set its realistic rates.</p>
+  <div class="two" style="margin-top:16px">
+    <div class="panel">
+      <div class="eyebrow">Peak week · Feb 2027</div>
+      <p class="comp" style="margin:10px 0 4px"><b>Its class — 3BR, no pool, walk to beach:</b></p>
+      <ul class="tight comp">
+        <li><b>Island Palms</b> · 3/2, one block off beach · ★4.91 (23) — <b class="money">$2,625</b>/wk</li>
+        <li><b>Beachside Oasis</b> · 4/2 canal + dock · ★4.76 (63) — <b class="money">$2,825</b>/wk</li>
+        <li><b>Happy Place Cottage</b> · 3/3 · ★5.0 (5) — <b class="money">$4,325</b>/wk</li>
+      </ul>
+      <p class="comp" style="margin:12px 0 4px"><b>With a pool:</b></p>
+      <ul class="tight comp">
+        <li><b>Private pool, walk 2 beach</b> · 3/2 · ★4.88 (69) — <b class="money">$3,500</b>/wk</li>
+        <li><b>Plunge-pool home</b> · 3/2 · ★4.94 (52) — <b class="money">$3,597</b>/wk</li>
+        <li><b>Flip Flop Paradise</b> · 3/2 · ★4.83 (64) — <b class="money">$3,770</b>/wk</li>
+      </ul>
+      <p class="comp" style="margin:12px 0 4px"><b>New builds &amp; waterfront (the market's top end):</b></p>
+      <ul class="tight comp">
+        <li><b>Grace by The Sea</b> · 2025 build, steps to beach · ★4.97 (66) — <b class="money">$5,587</b>/wk</li>
+        <li><b>FMB-ESCAPE</b> · 4BR heated pool on canal — <b class="money">$6,173</b>/wk</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Off-season week · Sep 2026</div>
+      <p class="comp" style="margin:10px 0 4px"><b>Its class — 3BR, no pool:</b></p>
+      <ul class="tight comp">
+        <li><b>Hidden Treasure</b> · 3/2 · ★4.83 (29) — <b class="money">$1,849</b>/wk</li>
+        <li><b>Crain's Perch</b> · 3/2 · ★4.85 (60) — <b class="money">$2,091</b>/wk</li>
+      </ul>
+      <p class="comp" style="margin:12px 0 4px"><b>With a pool:</b></p>
+      <ul class="tight comp">
+        <li><b>The Beach Bungalow</b> · heated pool · ★4.79 (62) — <b class="money">$1,351</b>/wk</li>
+        <li><b>134 Ocean's 11</b> · heated pool · ★4.96 (25) — <b class="money">$2,034</b>/wk</li>
+        <li><b>Gus's Getaway</b> · heated pool + walk to beach · ★4.85 (13) — <b class="money">$2,821</b>/wk</li>
+      </ul>
+      <p class="comp" style="margin:12px 0 4px"><b>New build:</b></p>
+      <ul class="tight comp">
+        <li><b>Beach Bound</b> · 2025 build, walk to town · ★5.0 (35) — <b class="money">$2,141</b>/wk</li>
+      </ul>
+      <p class="chart-note" style="margin-top:10px">Off-season is soft — even pool homes discount hard in September (hurricane season).</p>
+    </div>
+  </div>
+  <p class="chart-note" style="margin-top:10px">Analyzer rates used for this house after stripping Airbnb's ~14% guest fee and $325 cleaning from the all-in totals: <b>$280/night</b> base in winter, <b>$190/night</b> base off-season — anchored on the highest-review listings in its class (Island Palms, Crain's Perch, Hidden Treasure).</p>
+</section>
+
+<section>
+  <div class="panel gate">
+    <div class="eyebrow">The make-or-break question</div>
+    <h2 class="display">Confirm the weekly-rental status in writing — before anything else</h2>
+    <p class="sub">Paul, you called this one right: on Fort Myers Beach it's all about the weekly zone. The town's default rule for residential areas is <b>one rental per month</b> (minimum one-week stay). Weekly rentals are only allowed for properties between Estero Blvd and the Gulf, bay-side properties adjacent to Estero Blvd, and homes with <b>grandfathered weekly registrations from before Jan 1, 2003</b>. The listing markets this house as a "weekly rental property," and other Fairweather Ln listings say the same — but this analysis assumes weekly status, and every revenue number on this page depends on it.</p>
+    <ul class="tight">
+      <li><b>If weekly:</b> the $50.9K/yr revenue estimate stands (≈27 weekly stays).</li>
+      <li><b>If monthly-only:</b> you're capped at 12 stays a year — revenue roughly halves, and the deal is dead as a rental.</li>
+      <li><b>Verify:</b> Town of Fort Myers Beach Community Development — <a href="mailto:str@fmbgov.com">str@fmbgov.com</a> · (239) 765-0202. Ask specifically: does 216 Fairweather Ln hold a weekly rental registration, and does it transfer to a new owner? Get it in writing. All rentals must also register with the town (Rentalscape portal) and follow the STR Code of Conduct.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="panel upside">
+    <div class="eyebrow">Paul's pool thesis · tested against the comps</div>
+    <h2 class="display">Does adding a pool fix it?</h2>
+    <p class="sub">The comps say a pool is worth real money here: in the February week, pool homes in this class ask <b>$3,500–3,770</b> vs <b>$2,625</b> without — roughly <b>$390 vs $280 a night</b>. Run through the analyzer, a pool adds about <b>$20,000/yr of revenue</b>. That takes the financed deal from −$1,749/mo to roughly break-even — but a Florida flood-zone pool on this 4,094 sqft lot runs <b>$80–150K</b>, so you'd spend six figures to get to zero at the asking price. The pool argument is real (it's the difference between the two comp classes), but it strengthens a <i>well-bought</i> house — it can't rescue a full-price one. Margaritaville context: yes, a week there tops $4,000 — that's the demand this street feeds on, and it shows up in the winter comps.</p>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Costs &amp; risks unique to this one</div>
+  <h2 class="display">Eyes-open items</h2>
+  <div class="two" style="margin-top:14px">
+    <div class="panel">
+      <ul class="tight">
+        <li><b>Flood zone AE (high-risk).</b> Flood insurance is required by any lender. Estimated $1,200–5,000/yr depending on elevation — this analysis carries $2,500. Ask the seller for the <b>elevation certificate</b> and whether their flood policy is <b>assumable</b> (older policies can carry cheaper locked-in rates).</li>
+        <li><b>Wind insurance.</b> Barrier-island wind coverage on a 1962 block home is estimated at ~$4,500/yr here; quotes can vary widely. Total insurance modeled: $7,000/yr ($5K–12K range). Get real quotes before offering.</li>
+        <li><b>Taxes reset.</b> The listing's $7,059 becomes ≈$8,800 for a new buyer when Lee County reassesses at the sale price.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <ul class="tight">
+        <li><b>It survived Ian — that's genuinely worth something.</b> Concrete block, still standing after the worst surge event in island history, in a town where 31% of rental supply is still gone. Scarcity is part of why winter rates are strong.</li>
+        <li><b>Guest quarters upside.</b> The detached living space adds sleeping capacity (helps rate), but on FMB it almost certainly cannot be rented separately — rentals are limited to a single family per stay.</li>
+        <li><b>September–October is real hurricane season.</b> The off-season comps show it: even pool homes drop under $2K/week, and some weeks simply don't book.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">If you pursue it</div>
+  <h2 class="display">Due-diligence checklist</h2>
+  <div class="panel" style="margin-top:14px">
+    <ol class="check">
+      <li><b>Written weekly-rental confirmation from the town</b> (registration + transferability). Deal-breaker if it fails.</li>
+      <li><b>Insurance quotes in hand before offering:</b> wind + flood, with the elevation certificate; ask about assuming the seller's flood policy.</li>
+      <li><b>Rental history:</b> if it's operated as a rental, get 24 months of statements and the forward booking ledger.</li>
+      <li><b>AirDNA Rentalizer report for this exact address</b> (Shawn can run it) — a second opinion on the $50.9K estimate.</li>
+      <li><b>Inspection focus:</b> roof age (shingle), any Ian water intrusion history, and the guest quarters' permit status.</li>
+      <li><b>Negotiate from the math:</b> 84 days on market, one cut already, seller repricing at their own 2022 peak. The financed math says this house is worth fighting for in the low-to-mid $400Ks as an investment — anything above that is paying for the lifestyle, which is a fair choice if that's the goal.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Bonus · the 12-mile deal screen</div>
+  <h2 class="display">Every better deal within 12 miles</h2>
+  <p class="sub">Paul — since the data was already pulled, here is what else is for sale within ~12 miles of 216 Fairweather that screens better as an investment. Roughly 60 candidates surfaced across Fort Myers Beach, San Carlos Island, Sanibel, SE Cape Coral and close-in Fort Myers; the standing skips (condos, HOA communities, 55+ parks, mobile homes) removed most of the inventory. <b>25 of them got the full Deal Analyzer treatment</b> — same financed math as your house above (20% down, 30-yr, 7.5%).</p>
+  <div class="stats">
+    <div class="stat"><div class="k">Candidates screened</div><div class="v">~60</div><div class="d">5 zips swept Aug 31</div></div>
+    <div class="stat"><div class="k">Clear the 1% rule</div><div class="v good">38</div><div class="d">on the screen basis</div></div>
+    <div class="stat"><div class="k">Analyzed in Excel</div><div class="v">25</div><div class="d">workbooks #109–133</div></div>
+    <div class="stat"><div class="k">Cash-flow positive financed</div><div class="v">3</div><div class="d">all San Carlos Island multi-units</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Deal Analyzer leaderboard · financed at 20% down, 7.5%, 30 yr</div>
+  <h2 class="display">The money truth, ranked</h2>
+  <p class="sub">Gross yield finds candidates — financed cash flow picks winners. Rates in these workbooks are comp-anchored where live comps exist (Fort Myers Beach + Cape Coral, pulled Aug 31) and conservative <i>flagged floors</i> where they don't (duplex units, mainland non-pool homes, Sanibel). Floors mean real results could be better — but nobody should buy on hope.</p>
+  <div class="panel" style="margin-top:14px"><div class="tblwrap">
+    <table id="anTable">
+      <tr><th>#</th><th>Property</th><th>Market</th><th class="num">Price</th><th class="num">Modeled revenue/yr</th><th class="num">Cash flow/mo</th><th class="num">Cash-on-cash</th><th class="num">Cash needed</th></tr>
+      <tr class="hl"><td>110</td><td>17226/17228 Whitewater Ct — duplex, 2× 3/2 ⚠ verify records</td><td>San Carlos Is.</td><td class="num">$400,000</td><td class="num">$86,724</td><td class="num pos">+$2,758</td><td class="num pos">27.1%</td><td class="num">$122,000</td></tr>
+      <tr class="hl"><td>109</td><td>17244/17246 Whitewater Ct — duplex, 2× 2/2, updated</td><td>San Carlos Is.</td><td class="num">$390,000</td><td class="num">$61,703</td><td class="num pos">+$822</td><td class="num pos">8.9%</td><td class="num">$110,700</td></tr>
+      <tr class="hl"><td>111</td><td>842 South St — 2006 two-unit (2× 3/2) + unfinished 2/1</td><td>San Carlos Is.</td><td class="num">$675,000</td><td class="num">$86,724</td><td class="num pos">+$1,028</td><td class="num pos">6.8%</td><td class="num">$180,250</td></tr>
+      <tr><td>117</td><td>1683 Atlanta Plaza Dr — 3/2, systems all new, finish it</td><td>Sanibel</td><td class="num">$450,000</td><td class="num">$50,863</td><td class="num neg">−$207</td><td class="num neg">−1.7%</td><td class="num">$146,500</td></tr>
+      <tr><td>133</td><td>2355 Jeffcott St — cheapest 3/2 in the sweep ⚠ verify</td><td>Fort Myers</td><td class="num">$166,000</td><td class="num">$23,141</td><td class="num neg">−$275</td><td class="num neg">−5.1%</td><td class="num">$64,200</td></tr>
+      <tr><td>121</td><td>1306 SE 40th Ter — duplex? ⚠ records conflict</td><td>Cape Coral</td><td class="num">$325,000</td><td class="num">$38,544</td><td class="num neg">−$353</td><td class="num neg">−4.2%</td><td class="num">$100,750</td></tr>
+      <tr><td>128</td><td>2839/2841 Evans Ave — duplex 2× 2/1</td><td>Fort Myers</td><td class="num">$310,000</td><td class="num">$36,044</td><td class="num neg">−$450</td><td class="num neg">−5.7%</td><td class="num">$95,300</td></tr>
+      <tr><td>129</td><td>2403/2405 Maple Ave — 2023 duplex, leased at $2K/unit</td><td>Fort Myers</td><td class="num">$440,000</td><td class="num">$46,282</td><td class="num neg">−$493</td><td class="num neg">−4.8%</td><td class="num">$122,200</td></tr>
+      <tr><td>131</td><td>16910-16912 Juanita Ave — Iona duplex, closest to beach</td><td>Fort Myers</td><td class="num">$390,000</td><td class="num">$41,829</td><td class="num neg">−$519</td><td class="num neg">−5.5%</td><td class="num">$113,700</td></tr>
+      <tr><td>120</td><td>1653 Atlanta Plaza Dr — 2/2 sister restoration</td><td>Sanibel</td><td class="num">$430,000</td><td class="num">$43,362</td><td class="num neg">−$541</td><td class="num neg">−4.7%</td><td class="num">$137,900</td></tr>
+      <tr><td>130</td><td>11421 Kimble Dr — renovated duplex 2× 2/1</td><td>Fort Myers</td><td class="num">$330,000</td><td class="num">$36,044</td><td class="num neg">−$583</td><td class="num neg">−7.4%</td><td class="num">$94,900</td></tr>
+      <tr><td>125</td><td>143 SE 30th Ter — 3/2</td><td>Cape Coral</td><td class="num">$239,900</td><td class="num">$23,579</td><td class="num neg">−$727</td><td class="num neg">−10.7%</td><td class="num">$81,180</td></tr>
+      <tr><td>126</td><td>3506 Country Club Blvd — 3/2</td><td>Cape Coral</td><td class="num">$249,900</td><td class="num">$23,579</td><td class="num neg">−$791</td><td class="num neg">−11.4%</td><td class="num">$83,480</td></tr>
+      <tr><td>127</td><td>345 SE 47th Ter — 3/2</td><td>Cape Coral</td><td class="num">$249,900</td><td class="num">$23,579</td><td class="num neg">−$791</td><td class="num neg">−11.4%</td><td class="num">$83,480</td></tr>
+      <tr><td>122</td><td>311 Tudor Dr — duplex 2× 2/1</td><td>Cape Coral</td><td class="num">$365,000</td><td class="num">$35,259</td><td class="num neg">−$882</td><td class="num neg">−9.6%</td><td class="num">$109,950</td></tr>
+      <tr><td>123</td><td>613 SE 46th Ter A-B — big duplex 2× 2/2</td><td>Cape Coral</td><td class="num">$399,000</td><td class="num">$38,544</td><td class="num neg">−$883</td><td class="num neg">−9.0%</td><td class="num">$117,750</td></tr>
+      <tr><td>114</td><td>17284 Whitewater Ct — 2017 ELEVATED duplex, metal roof</td><td>San Carlos Is.</td><td class="num">$675,000</td><td class="num">$61,703</td><td class="num neg">−$889</td><td class="num neg">−6.1%</td><td class="num">$176,250</td></tr>
+      <tr><td>112</td><td>5431 Oak Ridge Ave — 2 units, weekly zone, proven history</td><td>Ft Myers Beach</td><td class="num">$545,000</td><td class="num">$52,122</td><td class="num neg">−$934</td><td class="num neg">−7.8%</td><td class="num">$144,350</td></tr>
+      <tr><td>113</td><td>229 Fairweather Ln — quad, 3 weekly STRs running</td><td>Ft Myers Beach</td><td class="num">$999,500</td><td class="num">$93,404</td><td class="num neg">−$984</td><td class="num neg">−4.9%</td><td class="num">$242,900</td></tr>
+      <tr><td>124</td><td>3805/3807 SE 15th Pl — duplex 2× 2/2</td><td>Cape Coral</td><td class="num">$434,700</td><td class="num">$38,544</td><td class="num neg">−$1,116</td><td class="num neg">−10.6%</td><td class="num">$125,990</td></tr>
+      <tr><td>132</td><td>1905 Oakley Ave A/B — McGregor duplex</td><td>Fort Myers</td><td class="num">$369,000</td><td class="num">$32,485</td><td class="num neg">−$1,129</td><td class="num neg">−12.7%</td><td class="num">$106,850</td></tr>
+      <tr><td>119</td><td>1377 Sand Castle Rd — 4/3</td><td>Sanibel</td><td class="num">$657,000</td><td class="num">$54,202</td><td class="num neg">−$1,355</td><td class="num neg">−9.0%</td><td class="num">$181,100</td></tr>
+      <tr><td>118</td><td>1113 Skiff Pl — 5/3</td><td>Sanibel</td><td class="num">$699,000</td><td class="num">$57,542</td><td class="num neg">−$1,446</td><td class="num neg">−8.9%</td><td class="num">$194,750</td></tr>
+      <tr><td>108</td><td><b>216 Fairweather Ln — Paul's subject property</b></td><td>Ft Myers Beach</td><td class="num">$675,000</td><td class="num">$50,863</td><td class="num neg">−$1,749</td><td class="num neg">−12.9%</td><td class="num">$163,250</td></tr>
+      <tr><td>115</td><td>75 Mound Rd — 4/4 ⚠ unit mix unconfirmed</td><td>Ft Myers Beach</td><td class="num">$799,000</td><td class="num">$61,703</td><td class="num neg">−$1,945</td><td class="num neg">−11.1%</td><td class="num">$209,750</td></tr>
+      <tr><td>116</td><td>127-129 Fairweather Ln — duplex ⚠ mix unconfirmed</td><td>Ft Myers Beach</td><td class="num">$749,000</td><td class="num">$52,122</td><td class="num neg">−$2,296</td><td class="num neg">−14.0%</td><td class="num">$196,250</td></tr>
+    </table>
+  </div>
+  <p class="chart-note" style="margin-top:8px">Rows marked ⚠ have conflicting public records or unconfirmed unit mixes — one agent call each settles them. The three winners are all on <b>San Carlos Island</b> (the shrimp-boat side of the bridge, still zip 33931): unincorporated Lee County, so the town's weekly/monthly rental zones don't apply there. Negative rows aren't garbage — they're what honest floor-rate math looks like at 7.5% money; several (Maple Ave, Kimble, Evans, Juanita) are solid <i>long-term-rental</i> duplexes where rents, not Airbnb, carry the deal.</p>
+</section>
+
+<section>
+  <div class="eyebrow">The standouts, in plain english</div>
+  <h2 class="display">Five worth a phone call</h2>
+  <div class="two" style="margin-top:14px">
+    <div class="panel">
+      <ul class="tight">
+        <li><b>17226/17228 Whitewater Ct, $400K — the number one deal IF it checks out.</b> Two 3-bed/2-bath units for less than the price of one island cottage, and modeled at +$2,758/mo. Records conflict on its config and it's ground-level (Ian history unknown) — one call and an inspection decide it. <a href="https://www.google.com/search?q=site%3Arealtor.com+%2217226+Whitewater%22+Fort+Myers+Beach" target="_blank" rel="noopener">Find on Realtor.com ↗</a></li>
+        <li><b>17244/17246 Whitewater Ct, $390K — the cleaner sibling.</b> Two updated 2/2 units, +$822/mo modeled on floor rates, 8.9% cash-on-cash, ~$111K in. <a href="https://www.google.com/search?q=site%3Arealtor.com+%2217244+Whitewater%22+Fort+Myers+Beach" target="_blank" rel="noopener">Find on Realtor.com ↗</a></li>
+        <li><b>842 South St, $675K — same money as 216 Fairweather, opposite result.</b> A 2006-built two-unit that models +$1,028/mo where the subject house loses $1,749 — plus a third unfinished unit as upside. This is the cleanest "buy this instead" on the board. <a href="https://www.google.com/search?q=site%3Arealtor.com+%22842+South+St%22+Fort+Myers+Beach" target="_blank" rel="noopener">Find on Realtor.com ↗</a></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <ul class="tight">
+        <li><b>229 Fairweather Ln, $999.5K — the proof of concept for Paul's own street.</b> A quad with three furnished weekly rentals already running. It models −$984/mo on conservative floor rates, but this one has REAL books — ask for the actual statements; if the trailing twelve months beat $93K, the real number flips positive. <a href="https://www.google.com/search?q=site%3Arealtor.com+%22229+Fairweather%22+Fort+Myers+Beach" target="_blank" rel="noopener">Find on Realtor.com ↗</a></li>
+        <li><b>1683 Atlanta Plaza Dr, Sanibel, $450K — the almost.</b> Roof, HVAC, electrical, plumbing, impact windows all new; interior needs finishing ($25K budgeted). Misses by $207/mo — a finish-it-yourself buyer at a negotiated price gets Sanibel at half of Sanibel money. Verify Sanibel's rental rules first. <a href="https://www.google.com/search?q=site%3Arealtor.com+%221683+Atlanta+Plaza%22+Sanibel" target="_blank" rel="noopener">Find on Realtor.com ↗</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Coverage &amp; honesty notes</div>
+  <div class="panel">
+    <ul class="tight" style="font-size:14px">
+      <li><b>Swept Aug 31, 2026:</b> zips 33931 (FMB + San Carlos, houses + multifamily + cash-only lanes), 33957 (Sanibel), 33956 (St. James City), 33908/33919 (south Fort Myers), 33904 (SE Cape — newest 40 of 134), 33901 (downtown FM). <b>Not swept:</b> SW Cape (33914 — same profile as SE Cape, longer drive to the beach), Estero/Bonita (mostly gated HOA communities, and Bonita is outside 12 miles), Pine Island north. Condos, HOA communities, 55+ parks and mobile homes excluded throughout.</li>
+      <li><b>St. James City has no deals:</b> waterfront prices with Pine Island revenue — nothing came within reach of 1%.</li>
+      <li><b>Screen yields vs analyzer numbers:</b> card yields use each market's AirDNA average revenue scaled by bedrooms (the standard screen basis). Analyzer workbooks re-price every property from its own comp class, which is usually lower — that's why a 1.4% screen can still lose money financed. Both numbers are shown on purpose.</li>
+      <li><b>Where rates are floors:</b> duplex units, mainland non-pool homes and Sanibel had no direct same-class live comps in this pull — those workbooks use conservative flagged floors (stated inside each file). Fort Myers Beach ordinary homes and Cape pool homes are comp-anchored from the Aug 31 live pulls.</li>
+      <li><b>Every number needs verification before an offer:</b> AirDNA Rentalizer per address, insurance quotes (wind + flood — the estimates here range $4K–$9K/yr), town/county rental rules per parcel, and actual condition. Prices move — several listings here cut prices in August.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="foot">
+  <p><b>How this was built:</b> listing data from Redfin/MLS GRID sweeps + Florida Gulf Coast MLS (Aug 31, 2026) · market data from AirDNA (updated Aug 25, 2026) · nightly rates comp-verified against live Airbnb listings pulled Aug 31, 2026 (Feb-2027 peak + Sep-2026 trough weeks; Fort Myers Beach + Cape Coral) · financed math from Shawn's Vacation Rental Deal Analyzer workbooks #108–133 (20% down, 30-yr @ 7.5%, FL taxes at sale-price reassessment, coastal insurance estimates). The subject property's blended rate × occupancy tests within 6% of AirDNA's market average revenue — honest, not optimistic.</p>
+  <p><b>What it isn't:</b> a guarantee. Rates and occupancy are market-based estimates; insurance is quoted, not assumed; the weekly-zone status of any Town-of-FMB property must be confirmed in writing before its revenue math counts. Prepared by Shawn Schroeder's research setup, August 31, 2026.</p>
+</div>
+
+</div>
+<script>
+function copyLink(btn){
+  var url = document.getElementById('selflink').href;
+  function done(){ btn.textContent = 'Copied ✓'; setTimeout(function(){ btn.textContent = 'Copy link'; }, 2000); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(done, function(){ fallback(); });
+  } else { fallback(); }
+  function fallback(){
+    var ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta);
+    ta.select(); try { document.execCommand('copy'); done(); } catch(e){} document.body.removeChild(ta);
+  }
+}
+</script>
+</body>
+</html>
