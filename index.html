@@ -415,7 +415,18 @@ const TOWNS = [["Bourbonnais",41.150,-87.878],["Bradley",41.130,-87.861],["St. A
  ["Mazon",41.243,-88.412],["Romeoville",41.648,-88.090],["Bolingbrook",41.700,-88.068],
  ["Mokena",41.527,-87.891],["Pembroke Township",41.058,-87.588],
  ["Hanna",41.418,-86.774],["Porter",41.612,-87.075],["Coloma",42.183,-86.307],
- ["Watervliet",42.187,-86.259],["Galien",41.795,-86.497],["Stevensville",42.015,-86.522]];
+ ["Watervliet",42.187,-86.259],["Galien",41.795,-86.497],["Stevensville",42.015,-86.522],
+ /* 2026-08-31: these 20 towns all had properties in the DB but NO entry here, so they
+    never drew a dot on the radius map and were invisible to any distance calculation.
+    "Kankakee" is included for rural/unincorporated parcels carrying a Kankakee mailing
+    address (kmail:true) — the City of Kankakee itself remains a standing exclusion. */
+ ["Kankakee",41.120,-87.861],["Limestone Twp",41.060,-87.930],["Chebanse",41.001,-87.907],
+ ["Clifton",40.934,-87.936],["Martinton",40.913,-87.867],["Gilman",40.766,-87.993],
+ ["Onarga",40.717,-88.007],["Milford",40.629,-87.697],["Sheldon",40.769,-87.562],
+ ["Peotone",41.332,-87.785],["Crete",41.444,-87.632],["University Park",41.445,-87.686],
+ ["Burnham",41.638,-87.548],["Elwood",41.404,-88.111],["Channahon",41.429,-88.229],
+ ["Rockdale",41.512,-88.115],["South Wilmington",41.171,-88.257],["Newark",41.535,-88.579],
+ ["Tilton",40.096,-87.646],["Broadlands",39.911,-87.996]];
 
 let DB = { properties: [], favorites: {}, markets: { markets: [] } };
 const tip = $("#tip");
