@@ -165,8 +165,11 @@
     border:2px solid var(--ink);border-bottom:none;border-radius:8px 8px 0 0;margin-right:6px;
     background:var(--ink);color:var(--ground)">Short-term rentals · Airbnb</button>
   <button data-mode="ltr" style="flex:0 0 auto;padding:10px 22px;font-size:15px;font-weight:700;cursor:pointer;
-    border:2px solid var(--ink);border-bottom:none;border-radius:8px 8px 0 0;
+    border:2px solid var(--ink);border-bottom:none;border-radius:8px 8px 0 0;margin-right:6px;
     background:var(--panel);color:var(--ink)">Long-term rentals</button>
+  <button data-mode="water" style="flex:0 0 auto;padding:10px 22px;font-size:15px;font-weight:700;cursor:pointer;
+    border:2px solid var(--ink);border-bottom:none;border-radius:8px 8px 0 0;
+    background:var(--panel);color:var(--ink)">💧 Waterfront · 50 mi</button>
 </div>
 <div id="sharebar" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0 0;
   padding:10px 16px;background:var(--wash);border:1.5px solid var(--accent);border-radius:8px">
@@ -372,9 +375,40 @@ const $ = s => document.querySelector(s);
 const fmt$ = n => n==null ? "TBD" : "$"+n.toLocaleString();
 const fmtK = n => "$"+Math.round(n/1000)+"K";
 /* Dashboard mode: "str" (Airbnb revenue) or "ltr" (long-term rent). Tab switch reloads. */
-const MODE = localStorage.getItem("hqmode") === "ltr" ? "ltr" : "str";
+/* ?mode=water (or ltr/str) in the URL wins over the saved tab, so a specific
+   view can be linked to or bookmarked directly. Otherwise the last tab sticks. */
+const MODE = (() => {
+  const q = new URLSearchParams(location.search).get("mode");
+  if (["str","ltr","water"].includes(q)) return q;
+  const s = localStorage.getItem("hqmode");
+  return ["ltr","water"].includes(s) ? s : "str";
+})();
+/* Waterfront mode is an STR view — water drives the nightly rate, not the lease. */
 const revOf = p => MODE === "ltr" ? (p.ltr || 0) : p.rev;
 const REVLABEL = MODE === "ltr" ? "Est. monthly rent" : "Est. STR revenue";
+
+/* ---------- Waterfront tab (added 2026-08-31 at Shawn's request) ----------
+   Scope: waterfront ONLY, within 50 miles of home, yield at or above 0.75%.
+   Distances are computed from the TOWNS table below, so a property in a town
+   with no coordinates would be invisible here — that is exactly the bug that
+   hid 8444 W Rte 17 from a "near me" ranking, and why all 20 missing towns
+   were added on 2026-08-31. Keep TOWNS complete. */
+const WATER_HOME = [41.150, -87.878];        // Bourbonnais
+const WATER_RADIUS = 50;                      // miles
+const WATER_MIN_YIELD = 0.75;                 // percent per month
+const TOWN_ALIAS = {
+  "Kankakee rural": "Kankakee",
+  "Sun River Terrace": "Sun River Terr.",
+  "Hopkins Park": "Pembroke Township"
+};
+function milesFromHome(p){
+  const raw = (p.town || "").split(" (")[0];
+  const hit = TOWN_COORD[TOWN_ALIAS[raw] || raw];
+  if (!hit) return null;                      // unknown town → excluded, and counted
+  const dy = (hit[0] - WATER_HOME[0]) * 69;
+  const dx = (hit[1] - WATER_HOME[1]) * 52.2;
+  return Math.sqrt(dx*dx + dy*dy);
+}
 const yieldOf = p => (p.price && revOf(p)) ? (revOf(p)/p.price*100) : null;
 const AREAS = {
   starved:{label:"Starved Rock corridor (Ottawa–Marseilles)",slot:"--s7"},
@@ -427,6 +461,8 @@ const TOWNS = [["Bourbonnais",41.150,-87.878],["Bradley",41.130,-87.861],["St. A
  ["Burnham",41.638,-87.548],["Elwood",41.404,-88.111],["Channahon",41.429,-88.229],
  ["Rockdale",41.512,-88.115],["South Wilmington",41.171,-88.257],["Newark",41.535,-88.579],
  ["Tilton",40.096,-87.646],["Broadlands",39.911,-87.996]];
+/* name -> [lat,lon], used by milesFromHome() for the waterfront tab */
+const TOWN_COORD = Object.fromEntries(TOWNS.map(([n,la,lo]) => [n,[la,lo]]));
 
 let DB = { properties: [], favorites: {}, markets: { markets: [] } };
 const tip = $("#tip");
@@ -502,7 +538,8 @@ function cardHTML(p, opts){
     <div class="revline">${REVLABEL}: <b class="mono">$${revOf(p).toLocaleString()}/mo</b>${MODE==="ltr"&&p.ltrSrc?` <span style="font-size:11px;color:var(--ink-3)">· ${p.ltrSrc}</span>`:""}
     ${MODE==="ltr"&&p.ltrFlag?`<div class="note" style="color:var(--flag)">⚑ ${p.ltrFlag}</div>`:""}
       <span class="areachip" style="margin-left:8px"><span class="dot" style="background:var(${areaOf(p).slot})"></span>${areaOf(p).label.split(" (")[0]}</span></div>
-    ${p.water?`<div class="revline" style="color:var(--accent-ink);font-weight:600">💧 ${p.water}</div>`:""}
+    ${p.water?`<div class="revline" style="color:var(--accent-ink);font-weight:600">💧 ${p.water}${
+      p.__mi!==undefined?` <span style="font-weight:500;color:var(--ink-3)">· ${p.__mi} mi from home</span>`:""}</div>`:""}
     ${an}
     ${p.flag?`<div class="note" style="color:var(--crit)">⚑ ${p.flag}</div>`:""}
     ${p.note?`<div class="note">${p.note}</div>`:""}
@@ -703,6 +740,44 @@ function drawMarkets(){
       if (b.dataset.mode !== MODE) { localStorage.setItem("hqmode", b.dataset.mode); location.reload(); }
     });
   });
+  if (MODE === "water") {
+    /* Filter the whole dataset once — every section, the Top 10, the scatter and
+       the map all read from DB.properties, so they follow automatically. */
+    /* Drop off-market and excluded here too, so the headline count matches the
+       cards actually rendered — a later global filter removes them anyway. */
+    const all = DB.properties.filter(p => p.status !== "offmarket" && !p.excl);
+    const kept = all.filter(p => {
+      if (!p.water || !p.price) return false;
+      const y = p.rev / p.price * 100;
+      if (!(y >= WATER_MIN_YIELD)) return false;
+      const d = milesFromHome(p);
+      return d !== null && d <= WATER_RADIUS;
+    });
+    /* Count what the filter rejected, so the page can be honest about it. */
+    const water   = all.filter(p => p.water && !p.excl);
+    const noCoord = water.filter(p => milesFromHome(p) === null).length;
+    const tooFar  = water.filter(p => { const d = milesFromHome(p); return d !== null && d > WATER_RADIUS; }).length;
+    const lowYld  = water.filter(p => { const d = milesFromHome(p);
+                      return d !== null && d <= WATER_RADIUS && p.price && p.rev / p.price * 100 < WATER_MIN_YIELD; }).length;
+    kept.forEach(p => p.__mi = Math.round(milesFromHome(p)));
+    DB.properties = kept.sort((a,b) => (b.rev/b.price) - (a.rev/a.price));
+
+    $("#analyzers").style.display = "none";
+    const eb = document.querySelector(".mast .eyebrow");
+    if (eb) eb.textContent = "Waterfront only · 50-mile radius · Bourbonnais, Illinois";
+    const sub = document.querySelector(".mast .sub");
+    if (sub) sub.innerHTML =
+      `<b>${kept.length} waterfront ${kept.length===1?"property":"properties"}</b> within ${WATER_RADIUS} miles of home ` +
+      `clearing ${WATER_MIN_YIELD}%/month. Water is the strongest driver of nightly rate in this region, so this tab ` +
+      `relaxes the usual 1% bar to ${WATER_MIN_YIELD}% and drops the second-dwelling requirement entirely — ` +
+      `every card shows its distance and exactly what kind of water it has. ` +
+      `<b>Lake Michigan is 64 miles away and therefore out of scope here</b>, which is why the Dunes and Harbor ` +
+      `Country — the best waterfront in the wider 100-mile ring — do not appear. Inside this circle the water is the ` +
+      `Kankakee and Illinois Rivers, the I&amp;M Canal, Cedar Lake, Lake Dalecarlia and the Fox River. ` +
+      `<span style="color:var(--ink-3)">Excluded from this view: ${tooFar} waterfront ${tooFar===1?"property":"properties"} ` +
+      `beyond ${WATER_RADIUS} miles, ${lowYld} inside the radius below ${WATER_MIN_YIELD}%` +
+      (noCoord ? `, and ${noCoord} in a town with no map coordinates` : "") + `.</span>`;
+  }
   if (MODE === "ltr") {
     $("#analyzers").style.display = "none";
     const mkt = document.querySelector("#mktbars")?.closest("section");
