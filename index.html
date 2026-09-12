@@ -257,6 +257,35 @@
   .altlinks a:hover{color:var(--accent-ink);border-bottom-color:var(--accent)}
   .flagcell{max-width:320px}
   @media (max-width:900px){ .flagcell{max-width:220px} }
+  .vb{display:inline-block;margin-left:8px;font-size:10px;font-weight:700;letter-spacing:.05em;
+    text-transform:uppercase;padding:2px 6px;border-radius:4px;vertical-align:1px;
+    color:var(--pass-text);border:1px solid rgba(51,206,134,.45);background:rgba(51,206,134,.08)}
+  .vb-q{color:var(--ink-3);border-color:var(--ring);background:var(--panel-2)}
+  .movement{margin:18px 0 0;padding:14px 18px;background:var(--panel);border:1px solid var(--ring);
+    border-radius:9px;box-shadow:0 1px 2px rgba(0,0,0,.28),0 8px 22px -14px rgba(0,0,0,.7)}
+  .mv-head{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);font-weight:700}
+  .mv-note{text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink-3);margin-left:8px}
+  .mv-row{display:flex;gap:26px;flex-wrap:wrap;margin-top:9px}
+  .mv-stat{font-size:14px;color:var(--ink-2)}
+  .mv-stat b{font-size:23px;font-weight:700;margin-right:6px;letter-spacing:-.015em}
+  .mv-deep{margin-top:9px;font-size:13.5px;color:var(--ink-2)}
+  #legend-areas span[role="button"]{cursor:pointer;border-radius:5px;padding:2px 6px;margin:-2px 0;
+    transition:background .14s ease-out,color .14s ease-out}
+  #legend-areas span[role="button"]:hover{background:var(--panel-2);color:var(--ink)}
+  #legend-areas span[aria-pressed="true"]{background:var(--wash);color:var(--accent-ink);font-weight:700}
+  /* No horizontal page scroll at any width. The long share URL was the main
+     offender; tables already scroll inside their own container. */
+  html,body{max-width:100%;overflow-x:clip}
+  #sharebar{flex-wrap:wrap}
+  #sharebar a{word-break:break-all;min-width:0}
+  .mv-deep{overflow-wrap:anywhere}
+  @media (max-width:640px){
+    .wrap{padding:0 14px}
+    .mv-row{gap:18px}
+    .mv-stat b{font-size:20px}
+    .stat .v{font-size:24px}
+    h1{font-size:clamp(26px,7.5vw,34px)}
+  }
 </style>
 </head>
 <body>
@@ -318,6 +347,7 @@
     </div>
   </div>
   <div class="stats" id="stats"></div>
+  <div id="movement"></div>
 </header>
 
 <section id="favorites" style="display:none">
@@ -340,11 +370,15 @@
 
 <section>
   <h2 class="display" id="top10-head">Top 10 by yield — all sections combined</h2>
-  <p class="sub">Ranked on estimated monthly revenue against price. Listings whose records contradict
-  each other are held out of this table on purpose. They still appear on their own cards, with their flags.</p>
+  <p class="sub" id="top10-sub"></p>
+  <div class="filters" style="margin-top:14px" role="group" aria-label="Ranking basis">
+    <span style="font-size:13px;font-weight:700;color:var(--ink-2)">Rank by:</span>
+    <button class="chip rankmode" data-rank="cf" aria-pressed="true">Monthly cash flow</button>
+    <button class="chip rankmode" data-rank="yield" aria-pressed="false">Gross yield</button>
+  </div>
   <div class="panel" style="margin-top:16px"><div class="tablewrap" style="border:none">
     <table><thead><tr><th style="width:44px">#</th><th style="width:36px">★</th><th>Property</th><th class="num">Miles</th><th class="num">Price</th>
-    <th class="num">Est. rev/mo</th><th class="num">Yield</th><th>Section / flags</th></tr></thead>
+    <th class="num">Cash flow/mo</th><th class="num">CoC</th><th class="num">Yield</th></tr></thead>
     <tbody id="top10-tbody"></tbody></table>
     </div><div class="rankbar"><button class="rankbtn" id="rankmore" type="button" hidden></button>
     <span class="chart-note">Ranked across the <b>whole 100-mile board</b>, highest yield first — a better deal further out still ranks ahead. The <b>Miles</b> column shows distance, and green means inside 35 miles. Your search applies here; the tab does not.</span>
@@ -352,8 +386,8 @@
 </section>
 
 <section>
-  <h2 class="display">The full database, three honesty tiers</h2>
-  <div class="filters" role="group" aria-label="Filters">
+  <h2 class="display">The full database</h2>
+  <div class="filters" id="board" role="group" aria-label="Filters">
     <button class="chip" data-f="all" aria-pressed="true">All</button>
     <button class="chip" data-f="second" aria-pressed="false">ADU / 2nd dwelling</button>
     <button class="chip" data-f="sfh" aria-pressed="false">Single-family</button>
@@ -370,8 +404,8 @@
     <span class="count-note" id="f-count"></span>
   </div>
   <div class="tier" id="tierA-wrap"><div class="tier-head"><h3 class="display">Tier A — two units or more, clearing 1%</h3><span class="tally" id="tallyA"></span></div><div class="grid" id="tierA"></div></div>
-  <div class="tier" id="tierB-wrap"><div class="tier-head"><h3 class="display">Tier B — single-family that clears 1%</h3><span class="tally" id="tallyB"></span></div><div class="grid" id="tierB"></div></div>
-  <div class="tier" id="tierC-wrap"><div class="tier-head"><h3 class="display">Tier C — close calls &amp; flagged</h3><span class="tally" id="tallyC"></span></div><div class="grid" id="tierC"></div></div>
+  <div class="tier" id="tierB-wrap"><div class="tier-head"><h3 class="display">Tier B — single-family, clearing 1%</h3><span class="tally" id="tallyB"></span></div><div class="grid" id="tierB"></div></div>
+  <div class="tier" id="tierC-wrap"><div class="tier-head"><h3 class="display">Tier C — clears 0.75%, short of 1%</h3><span class="tally" id="tallyC"></span></div><div class="grid" id="tierC"></div></div>
   <div class="tier" id="tierCash-wrap"><div class="tier-head"><h3 class="display">Cash-only lane</h3><span class="tally" id="tallyCash"></span></div>
     <p class="tier-desc">Sellers accepting cash offers only — auctions, leaseholds, unfinanceable condition. Different money, different speed.</p>
     <div class="grid" id="tierCash"></div></div>
@@ -709,7 +743,7 @@ function cardHTML(p, opts){
 }
 
 /* ---------- board state ---------- */
-const state={type:"all",area:"all",sort:"yield",hideRural:false,q:"",quick:new Set(),rankAll:false,
+const state={type:"all",area:"all",sort:"yield",hideRural:false,q:"",quick:new Set(),rankAll:false,rankBy:"cf",
   aduMin:parseFloat(localStorage.getItem("hqAduMin") ?? "1")||0};
 
 function renderAll(){
@@ -724,9 +758,71 @@ function renderAll(){
   $("#stats").innerHTML = `
     <div class="stat"><div class="k">Properties tracked</div><div class="v mono">${P.length}</div><div class="d">${mkts.length} market${mkts.length===1?"":"s"} screened</div></div>
     <div class="stat"><div class="k">Clear the 1% rule</div><div class="v mono">${pass}</div><div class="d">${MODE==="ltr"?"on long-term rent":"on Airbnb revenue"}</div></div>
-    <div class="stat"><div class="k">★ Favorites</div><div class="v mono">${favs.length}</div><div class="d">your shortlist below</div></div>
-    ${(()=>{const t=priced.filter(p=>p.cond==="ok"&&p.status!=="pending"&&yieldOf(p)).sort((a,b)=>yieldOf(b)-yieldOf(a))[0];
-      return t?`<div class="stat"><div class="k">Best turnkey yield</div><div class="v mono">${yieldOf(t).toFixed(2)}<small>%/mo</small></div><div class="d">${t.addr}, ${t.town.split(" (")[0]}</div></div>`:"";})()}`;
+    ${window.__SNAP__ ? "" : `<div class="stat"><div class="k">★ Favorites</div><div class="v mono">${favs.length}</div><div class="d">your shortlist below</div></div>`}
+    ${(()=>{
+      /* Cash flow decides a purchase; gross yield only finds candidates. This card
+         used to show a "best turnkey yield" that contradicted the leaderboard. */
+      const costed = P.filter(p=>p.analyzer && typeof p.analyzer.cf === "number");
+      const pos = costed.filter(p=>p.analyzer.cf > 0);
+      return `<div class="stat"><div class="k">Cash-flow positive</div><div class="v mono">${pos.length}</div>
+        <div class="d">of ${costed.length} costed in this view</div></div>`;})()}
+    ${(()=>{
+      const costed = P.filter(p=>p.analyzer && typeof p.analyzer.cf === "number")
+        .sort((a,b)=>b.analyzer.cf-a.analyzer.cf)[0];
+      return costed?`<div class="stat"><div class="k">Best monthly cash flow</div>
+        <div class="v mono">$${costed.analyzer.cf.toLocaleString()}</div>
+        <div class="d">${costed.addr}, ${costed.town.split(" (")[0]} · ${costed.analyzer.coc}% CoC · in this view</div></div>`:"";})()}`;
+  /* ---------- What moved recently ----------
+     Dates come from the data itself (firstSeen and priceHistory), never from the
+     viewer's clock, so an old snapshot still describes its own moment honestly. */
+  (() => {
+    const box = $("#movement"); if (!box) return;
+    const all = ALLPROPS.concat(DB.properties);
+    let maxD = "";
+    all.forEach(p => {
+      if (p.firstSeen && p.firstSeen > maxD) maxD = p.firstSeen;
+      (p.priceHistory || []).forEach(x => { if (x && x.d && x.d > maxD) maxD = x.d; });
+    });
+    if (!maxD) { box.innerHTML = ""; return; }
+    const cutoff = new Date(new Date(maxD + "T00:00:00Z").getTime() - 13 * 864e5)
+      .toISOString().slice(0, 10);
+    const seen = new Set(); const pool = [];
+    all.forEach(p => { if (!seen.has(p.id)) { seen.add(p.id); pool.push(p); } });
+
+    const fresh = pool.filter(p => p.firstSeen && p.firstSeen >= cutoff);
+    const moved = [];
+    pool.forEach(p => {
+      const ph = (p.priceHistory || []).filter(x => x && x.d && typeof x.p === "number");
+      if (ph.length < 2) return;
+      const last = ph[ph.length - 1], prev = ph[ph.length - 2];
+      if (last.d < cutoff || last.p === prev.p) return;
+      moved.push({ p, from: prev.p, to: last.p, pct: (last.p - prev.p) / prev.p * 100 });
+    });
+    const cuts = moved.filter(m => m.pct < 0).sort((a, b) => a.pct - b.pct);
+    const rises = moved.filter(m => m.pct > 0);
+    if (!fresh.length && !moved.length) { box.innerHTML = ""; return; }
+
+    const chip = (n, label, tone) =>
+      `<span class="mv-stat"><b style="color:${tone}">${n}</b> ${label}</span>`;
+    const deepest = cuts[0];
+    box.innerHTML =
+      `<div class="movement">
+        <div class="mv-head">Since ${cutoff}
+          <span class="mv-note">the last two weeks of screening</span></div>
+        <div class="mv-row">
+          ${chip(fresh.length, "newly found", "var(--accent)")}
+          ${chip(cuts.length, cuts.length === 1 ? "price cut" : "price cuts", "var(--pass-text)")}
+          ${chip(rises.length, rises.length === 1 ? "price rise" : "price rises",
+                 rises.length ? "var(--flag)" : "var(--ink-3)")}
+        </div>
+        ${deepest ? `<div class="mv-deep">Deepest cut:
+          <b>${deepest.p.addr}, ${deepest.p.town.split(" (")[0]}</b>
+          ${fmt$(deepest.from)} → <b style="color:var(--accent)">${fmt$(deepest.to)}</b>
+          <span style="color:var(--pass-text);font-weight:700">${deepest.pct.toFixed(1)}%</span></div>` : ""}
+        ${!rises.length && cuts.length ? `<div class="mv-deep" style="color:var(--ink-3)">
+          Every price change in this window was a cut, not one increase.</div>` : ""}
+      </div>`;
+  })();
   /* favorites section */
   $("#favorites").style.display = favs.length ? "" : "none";
   $("#fav-grid").innerHTML = favs.sort((a,b)=>(yieldOf(b)||0)-(yieldOf(a)||0)).map(p=>cardHTML(p,{notes:true})).join("");
@@ -737,18 +833,41 @@ function renderAll(){
     /* Board-wide on purpose: the tab narrows the cards below, never the ranking. */
   const GLOBAL = ALLPROPS.filter(MATCHFN);
   GLOBAL.forEach(p => { if (p.__mi === undefined) { const m = milesFromHome(p); if (m !== null) p.__mi = Math.round(m); } });
-  const ranked = GLOBAL.filter(p=>p.price&&revOf(p)&&p.status!=="verify").slice().sort((a,b)=>yieldOf(b)-yieldOf(a));
+  const costedAll = GLOBAL.filter(p=>p.price && p.analyzer && typeof p.analyzer.cf === "number");
+  const yieldAll  = GLOBAL.filter(p=>p.price && revOf(p));
+  const byCf = state.rankBy === "cf";
+  const ranked = byCf
+    ? costedAll.slice().sort((a,b)=>b.analyzer.cf - a.analyzer.cf)
+    : yieldAll.slice().sort((a,b)=>yieldOf(b)-yieldOf(a));
+  const uncosted = yieldAll.length - costedAll.length;
   const rankShown = state.rankAll ? ranked.length : Math.min(10, ranked.length);
   const rankHead = document.querySelector("#top10-head");
-  if (rankHead) rankHead.textContent = state.rankAll
-    ? `All ${ranked.length} ranked by yield`
-    : `Top 10 by yield — all sections combined`;
+  if (rankHead) rankHead.textContent = byCf
+    ? (state.rankAll ? `All ${ranked.length} costed properties, best cash flow first`
+                     : "What actually pays — top 10 by monthly cash flow")
+    : (state.rankAll ? `All ${ranked.length} ranked by gross yield`
+                     : "Top 10 by gross yield");
+  const rankSub = document.querySelector("#top10-sub");
+  if (rankSub) rankSub.innerHTML = byCf
+    ? `Ranked by what lands in your pocket each month after the mortgage, taxes, insurance and running costs.
+       This is the number that decides a purchase. <b>${costedAll.length} propert${costedAll.length===1?"y has":"ies have"}
+       a full cash-flow workbook</b>; the other ${uncosted} are candidates that have not been costed yet and are
+       ranked on the gross-yield tab instead. Gross yield finds candidates; cash flow picks winners. <b>This ranking covers the whole 100-mile board</b>, not just the current tab, so the stat cards above (which describe this tab) can legitimately name a different leader.`
+    : `Ranked on estimated monthly revenue against price. <b>This is the candidate-finder, not the decision.</b>
+       A high gross yield often just means a cheap building, and roughly half of these fail once a mortgage is
+       applied. Switch to cash flow for the properties that have actually been costed.`;
+  document.querySelectorAll(".rankmode").forEach(b =>
+    b.setAttribute("aria-pressed", (b.dataset.rank === state.rankBy) ? "true" : "false"));
   const rankBtn = document.querySelector("#rankmore");
   if (rankBtn) {
     rankBtn.hidden = ranked.length <= 10;
-    rankBtn.textContent = state.rankAll ? "Show top 10 only" : `Show all ${ranked.length} ranked ↓`;
+    rankBtn.textContent = state.rankAll ? "Show top 10 only" : `Show all ${ranked.length} ↓`;
   }
   $("#top10-tbody").innerHTML = ranked.slice(0,rankShown).map((p,i)=>{
+    const cf  = (p.analyzer && typeof p.analyzer.cf  === "number") ? p.analyzer.cf  : null;
+    const coc = (p.analyzer && typeof p.analyzer.coc === "number") ? p.analyzer.coc : null;
+    const cfTxt  = cf  == null ? "not costed" : (cf < 0 ? "−$" + Math.abs(cf).toLocaleString() : "$" + cf.toLocaleString());
+    const cocTxt = coc == null ? "—" : coc.toFixed(1) + "%";
     /* One glanceable word, then the first clause only. Full text on hover and on the card. */
     const esc = s => String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
     const firstClause = s => {
@@ -771,16 +890,16 @@ function renderAll(){
     return `<tr><td class="num rank">${i+1}</td><td>${starCell(p)}</td>
       <td><a class="plink" href="${listingURL(p)}" target="_blank" rel="noopener"
           title="${listingSrc(p) ? "Open on "+listingSrc(p) : "Search for this listing"}"
-          >${p.addr} · ${p.town}<span class="ext">↗</span></a><a class="altlink"
+          >${p.addr} · ${p.town}<span class="ext">↗</span></a>${p.cond==="ok"
+            ? '<span class="vb" title="Condition verified turnkey">verified</span>'
+            : ""}<a class="altlink"
           href="${altURL(p)}" target="_blank" rel="noopener"
           title="Backup: look this address up on ${altLabel(p)} (use this if the first link is dead)"
           aria-label="Search this address on ${altLabel(p)}">⌕</a></td>
       <td class="num" style="color:${p.__mi!=null&&p.__mi<=35?"var(--pass-text)":"var(--ink-3)"}">${p.__mi!=null?p.__mi:"—"}</td><td class="num">${fmt$(p.price)}</td>
-      <td class="num">${revOf(p).toLocaleString()}</td>
-      <td class="num" style="font-weight:700;color:var(--pass-text)">${yieldOf(p).toFixed(2)}%</td>
-      <td class="flagcell" style="font-size:12.5px;color:var(--ink-2)"
-        title="${esc((tierName[p.tier]||p.tier)+(p.cash?" · Cash-only":"")+(p.flag?" — "+p.flag:""))}"
-        >${(tierName[p.tier]||p.tier)+(p.cash?" · Cash-only":"")+" · "}${extra}</td></tr>`;
+      <td class="num" style="font-weight:700;color:${cf==null?"var(--ink-3)":(cf>0?"var(--pass-text)":"var(--crit)")}">${cfTxt}</td>
+      <td class="num" style="color:${coc==null?"var(--ink-3)":"var(--ink-2)"}">${cocTxt}</td>
+      <td class="num" style="font-weight:700;color:var(--accent)">${yieldOf(p).toFixed(2)}%</td></tr>`;
   }).join("");
   /* board */
   const f = P.filter(p=>{
@@ -891,9 +1010,23 @@ function drawScatter(){
   });
   /* legend */
   const lg=$("#legend-areas"); lg.innerHTML="";
-  Object.values(AREAS).forEach(a=>{
+  /* The legend was thirteen inert labels above the chart. Clicking one now isolates
+     that area across the whole board; clicking it again clears. */
+  Object.entries(AREAS).forEach(([key,a])=>{
     const s=document.createElement("span");
     s.innerHTML=`<span class="sw" style="background:var(${a.slot})"></span>${a.label}`;
+    s.setAttribute("role","button");
+    s.setAttribute("tabindex","0");
+    s.setAttribute("aria-pressed", state.area===key ? "true" : "false");
+    s.title = state.area===key ? "Showing this area only — click to clear" : "Click to show only "+a.label;
+    const hit = () => {
+      state.area = (state.area===key) ? "all" : key;
+      const sel=$("#f-area"); if (sel) sel.value = state.area;
+      renderAll();
+      document.querySelector("#board")?.scrollIntoView({behavior:"smooth",block:"start"});
+    };
+    s.addEventListener("click", hit);
+    s.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" ") { e.preventDefault(); hit(); } });
     lg.appendChild(s);
   });
 }
@@ -1058,7 +1191,7 @@ function drawMarkets(){
       `<b>${DB.properties.length} properties whose numbers cannot be taken at face value.</b> Each one carries a
       condition warning, a record that contradicts another source, or a known gut/rehab state. They are kept off
       every other tab on purpose: sorted by yield, a warning and a bargain look identical, and these were crowding
-      out the clean properties on the main board. <b>Nothing here is rejected</b> — several are genuinely cheap for
+      out the clean properties on the main board. <b>Nothing here is rejected.</b> Several are genuinely cheap for
       good reasons and a few are among the best things on the board once verified. But each one needs an answer
       first, and the flag on each card says exactly which question to ask.`;
   }
@@ -1210,6 +1343,10 @@ function drawMarkets(){
   });
   const rb = document.querySelector("#rankmore");
   if (rb) rb.addEventListener("click", () => { state.rankAll = !state.rankAll; renderAll(); });
+  document.querySelectorAll(".rankmode").forEach(b => b.addEventListener("click", () => {
+    if (state.rankBy === b.dataset.rank) return;
+    state.rankBy = b.dataset.rank; state.rankAll = false; renderAll();
+  }));
 
   drawMap(); drawMarkets(); applyQuery();
 })();
