@@ -410,6 +410,12 @@
     <p class="tier-desc">Sellers accepting cash offers only — auctions, leaseholds, unfinanceable condition. Different money, different speed.</p>
     <div class="grid" id="tierCash"></div></div>
   <div class="tier" id="tierW-wrap"><div class="tier-head"><h3 class="display">Watch list — coming soon</h3><span class="tally" id="tallyW"></span></div><div class="grid" id="tierW"></div></div>
+  <p class="sub" style="margin-top:18px">Looking for something specific?
+    <a href="?mode=auction">Auctions &amp; distress</a>,
+    <a href="?mode=water">waterfront</a>,
+    <a href="?mode=flagged">flagged properties</a> and
+    <a href="?mode=ltr">long-term rents</a> each have their own tab, covering the full
+    100-mile ring rather than the slice shown here.</p>
   <div class="scopenote"><b>Scope notes.</b> Radius expanded to <b>100 miles</b> on 2026-08-04 at Shawn's instruction
     (was 50 since 2026-07-20). The 2026-08-04 expansion swept the four strongest new markets for second-dwelling and
     multifamily inventory only: Indiana Dunes (LaPorte + Porter Co.), Harbor Country/SW Michigan (Berrien Co.),
@@ -445,22 +451,9 @@
     border:1px solid var(--ring);border-radius:8px;font-size:14px;color:var(--ink-2)"></div>
 </section>
 
-<section id="distress">
-  <div class="eyebrow" style="color:var(--crit)">Distress deals</div>
-  <h2 class="display">Foreclosures &amp; pre-foreclosures — top 10</h2>
-  <p class="sub">Bank-owned, auction, and pre-foreclosure listings in the radius, ranked by yield. These carry the
-    biggest discounts and the biggest unknowns — as-is condition, occupancy, auction terms — so every card
-    states its situation plainly. Inventory here is thin in a high-rate era; this section fills automatically
-    as new distress hits the market. <i>County-records pre-foreclosures (owners in default, not yet listed)
-    need a paid feed like RealtyTrac/PropStream — say the word if you want that added.</i></p>
-  <div class="grid" id="distress-grid" style="margin-top:16px"></div>
-</section>
 
-<section id="water">
-  <h2 class="display">Waterfront &amp; water-adjacent, 0.7%+ yield</h2>
-  <p class="sub">Relaxed threshold (0.7%), no second dwelling required — water is the region's strongest nightly-rate driver.</p>
-  <div class="grid" id="water-grid" style="margin-top:16px"></div>
-</section>
+
+
 
 <section id="analyzers">
   <h2 class="display">Vacation Rental Deal Analyzer 5.0 results</h2>
@@ -956,14 +949,10 @@ function renderAll(){
       (best?` The best on the board is <b>${best.addr}, ${best.town.split(" (")[0]}</b> at
         ${(yieldOf(best)||0).toFixed(2)}%/mo — lower the filter to see it.`:"");
   }
-  /* distress: foreclosures & pre-foreclosures, top 10 by yield */
-  const dis=P.filter(p=>p.distress&&p.price).sort((a,b)=>yieldOf(b)-yieldOf(a)).slice(0,10);
-  $("#distress").style.display=dis.length?"":"none";
-  $("#distress-grid").innerHTML=dis.map(p=>cardHTML(p)).join("");
-  /* water */
-  const wat=P.filter(p=>p.water&&p.price&&yieldOf(p)>=0.7).sort((a,b)=>yieldOf(b)-yieldOf(a));
-  $("#water").style.display=wat.length?"":"none";
-  $("#water-grid").innerHTML=wat.map(p=>cardHTML(p)).join("");
+  /* Foreclosures and waterfront each own a tab now. They used to be sections here
+     too, which produced two different counts for the same question (waterfront read
+     13 here against 81 on its tab) and a distress section that could never populate
+     once every distressed property became flagged. Removed 2026-09-12. */
   /* analyzers */
   const ans=P.filter(p=>p.analyzer).sort((a,b)=>b.analyzer.coc-a.analyzer.coc);
   $("#an-tbody").innerHTML=ans.map(p=>{
