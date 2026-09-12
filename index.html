@@ -951,7 +951,11 @@ function drawMarkets(){
       if (b.dataset.mode !== MODE) { localStorage.setItem("hqmode", b.dataset.mode); location.reload(); }
     });
   });
-  ALLPROPS = DB.properties.filter(p => p.status !== "offmarket" && !p.excl).filter(flagSplit);
+  /* Split FIRST: every mode block below computes its own headline copy from
+     DB.properties, so filtering after them made the masthead claim 195 while the
+     board showed 108. Caught on review 2026-09-12. */
+  DB.properties = DB.properties.filter(p => p.status !== "offmarket" && !p.excl).filter(flagSplit);
+  ALLPROPS = DB.properties.slice();
   if (MODE === "water") {
     /* Filter the whole dataset once — every section, the Top 10, the scatter and
        the map all read from DB.properties, so they follow automatically. */
@@ -1086,9 +1090,7 @@ function drawMarkets(){
   /* Off-market properties stay in the DB for history/dedupe but leave the boards. */
   DB.offmarketCount = DB.properties.filter(p => p.status === "offmarket").length;
   DB.properties = DB.properties.filter(p => p.status !== "offmarket" && !p.excl);
-  /* Flagged properties live on their own tab and nowhere else (Shawn, 2026-09-12). */
-  const flaggedCount = DB.properties.filter(IS_FLAGGED).length;
-  DB.properties = DB.properties.filter(flagSplit);
+
   if (window.__SNAP__) {
     document.body.classList.add("snap");
     const b = document.createElement("div");
