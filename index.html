@@ -340,11 +340,11 @@
   <p class="sub">Ranked on estimated monthly revenue against price. Listings whose records contradict
   each other are held out of this table on purpose. They still appear on their own cards, with their flags.</p>
   <div class="panel" style="margin-top:16px"><div class="tablewrap" style="border:none">
-    <table><thead><tr><th style="width:44px">#</th><th style="width:36px">★</th><th>Property</th><th class="num">Price</th>
+    <table><thead><tr><th style="width:44px">#</th><th style="width:36px">★</th><th>Property</th><th class="num">Miles</th><th class="num">Price</th>
     <th class="num">Est. rev/mo</th><th class="num">Yield</th><th>Section / flags</th></tr></thead>
     <tbody id="top10-tbody"></tbody></table>
     </div><div class="rankbar"><button class="rankbtn" id="rankmore" type="button" hidden></button>
-    <span class="chart-note">Search and tab filters apply to this ranking too.</span>
+    <span class="chart-note">Ranked across the <b>whole 100-mile board</b>, highest yield first — a better deal further out still ranks ahead. The <b>Miles</b> column shows distance, and green means inside 35 miles. Your search applies here; the tab does not.</span>
   </div></div>
 </section>
 
@@ -393,7 +393,7 @@
     guest houses, in-law suites, coach houses, second cottages and related-living layouts, together with
     2-flats, duplexes and small multifamily buildings. These are counted as one category because they are
     one idea — a second income on a single parcel. Ranked by yield in the current tab's lens, and every unit
-    counts toward revenue.</p>
+    counts toward revenue. <b>This section ranks across the whole 100-mile board</b> — distance never pushes a higher yield down, it is shown on each card instead.</p>
   <div class="filters" id="adu-filters" role="group" aria-label="ADU yield filter">
     <span style="font-size:13px;font-weight:700;color:var(--ink-2)">Minimum yield:</span>
     <button class="chip achip" data-y="0" aria-pressed="false">All</button>
@@ -607,6 +607,10 @@ const TOWNS = [["Rockford",42.271,-89.094],["Hinckley",41.769,-88.641],
 const TOWN_COORD = Object.fromEntries(TOWNS.map(([n,la,lo]) => [n,[la,lo]]));
 
 let DB = { properties: [], favorites: {}, markets: { markets: [] } };
+/* The whole board, never narrowed by a tab. Ranking surfaces read this so a
+   higher yield further out can still win (Shawn, 2026-09-12). */
+let ALLPROPS = [];
+let MATCHFN = () => true;   // set to the live search matcher once boot wires it up
 const tip = $("#tip");
 function showTip(html,x,y){ tip.innerHTML=html; tip.style.opacity=1;
   const w=tip.offsetWidth,h=tip.offsetHeight;
@@ -722,7 +726,10 @@ function renderAll(){
   const tierName={A:"Tier A — 2nd dwelling",B:"Tier B — single-family",C:"Tier C — flagged/close",W:"Watch"};
   /* status:"verify" means the records contradict each other — those must never headline
      the leaderboard (they stay visible on their own cards, with their flags). 2026-08-20 */
-    const ranked = priced.filter(p=>p.status!=="verify").slice().sort((a,b)=>yieldOf(b)-yieldOf(a));
+    /* Board-wide on purpose: the tab narrows the cards below, never the ranking. */
+  const GLOBAL = ALLPROPS.filter(MATCHFN);
+  GLOBAL.forEach(p => { if (p.__mi === undefined) { const m = milesFromHome(p); if (m !== null) p.__mi = Math.round(m); } });
+  const ranked = GLOBAL.filter(p=>p.price&&revOf(p)&&p.status!=="verify").slice().sort((a,b)=>yieldOf(b)-yieldOf(a));
   const rankShown = state.rankAll ? ranked.length : Math.min(10, ranked.length);
   const rankHead = document.querySelector("#top10-head");
   if (rankHead) rankHead.textContent = state.rankAll
@@ -741,7 +748,8 @@ function renderAll(){
           >${p.addr} · ${p.town}<span class="ext">↗</span></a><a class="altlink"
           href="${altURL(p)}" target="_blank" rel="noopener"
           title="Backup: look this address up on ${altLabel(p)} (use this if the first link is dead)"
-          aria-label="Search this address on ${altLabel(p)}">⌕</a></td><td class="num">${fmt$(p.price)}</td>
+          aria-label="Search this address on ${altLabel(p)}">⌕</a></td>
+      <td class="num" style="color:${p.__mi!=null&&p.__mi<=35?"var(--pass-text)":"var(--ink-3)"}">${p.__mi!=null?p.__mi:"—"}</td><td class="num">${fmt$(p.price)}</td>
       <td class="num">${revOf(p).toLocaleString()}</td>
       <td class="num" style="font-weight:700;color:var(--pass-text)">${yieldOf(p).toFixed(2)}%</td>
       <td style="font-size:12.5px;color:var(--ink-2)">${(tierName[p.tier]||p.tier)+(p.cash?" · Cash-only":"")+extra}</td></tr>`;
@@ -781,7 +789,10 @@ function renderAll(){
   /* ADU and multifamily are one category: more than one rentable unit on one
      purchase. Splitting them hid 121 multifamily properties from this section
      (Shawn, 2026-09-12). */
-  const adusAll=P.filter(p=>(p.type==="ADU"||p.type==="MF")&&p.price&&p.status!=="offmarket").sort((a,b)=>(yieldOf(b)||0)-(yieldOf(a)||0));
+  /* status:"verify" never headlines a ranked surface. This section became one the
+     moment it started ranking board-wide, and 315 Robinson St immediately took the
+     top slot again - the exact property the 2026-08-20 Top-10 fix was written for. */
+  const adusAll=GLOBAL.filter(p=>(p.type==="ADU"||p.type==="MF")&&p.price&&p.status!=="offmarket"&&p.status!=="verify").sort((a,b)=>(yieldOf(b)||0)-(yieldOf(a)||0));
   const adus=adusAll.filter(p=>(yieldOf(p)||0)>=state.aduMin);
   $("#adus").style.display=adusAll.length?"":"none";
   $("#adus-grid").innerHTML=adus.map(p=>cardHTML(p)).join("");
@@ -912,6 +923,7 @@ function drawMarkets(){
       if (b.dataset.mode !== MODE) { localStorage.setItem("hqmode", b.dataset.mode); location.reload(); }
     });
   });
+  ALLPROPS = DB.properties.filter(p => p.status !== "offmarket" && !p.excl);
   if (MODE === "water") {
     /* Filter the whole dataset once — every section, the Top 10, the scatter and
        the map all read from DB.properties, so they follow automatically. */
@@ -1099,6 +1111,7 @@ function drawMarkets(){
     return passesQuick(p);
   };
 
+  MATCHFN = matches;
   const nores = document.createElement("div");
   nores.className = "noresult"; nores.id = "noresult"; nores.hidden = true;
   document.querySelector(".searchwrap").after(nores);
