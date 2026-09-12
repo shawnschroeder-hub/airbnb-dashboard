@@ -264,6 +264,7 @@
 <div id="modetabs" style="display:flex;margin:14px 0 0" role="tablist" aria-label="Board views">
   <button data-mode="near"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Near me · 35 mi</span></button>
   <button data-mode="auction"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14 3 7 7"/><path d="m17.5 6.5-8 8"/><path d="m10.5 6.5 7 7"/><path d="M4 21h10"/><path d="m6.5 18 6-6"/></svg><span>Auctions & distress</span></button>
+  <button data-mode="flagged"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4.5h10.5l-1.8 3.5 1.8 3.5H5"/></svg><span>Flagged</span></button>
   <button data-mode="water"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c2.2 0 2.2 2 4.4 2s2.2-2 4.4-2 2.2 2 4.4 2 2.2-2 4.4-2"/><path d="M3 19.5c2.2 0 2.2 2 4.4 2"/><path d="M12 3c2.5 3 4 5.2 4 7a4 4 0 0 1-8 0c0-1.8 1.5-4 4-7Z"/></svg><span>Waterfront · 50 mi</span></button>
   <button data-mode="str"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5V14h4v5.5"/></svg><span>All · Airbnb</span></button>
   <button data-mode="ltr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4.5h8V7"/><path d="M3 12.5h18"/></svg><span>All · Long-term</span></button>
@@ -514,9 +515,9 @@ const fmtK = n => "$"+Math.round(n/1000)+"K";
    view can be linked to or bookmarked directly. Otherwise the last tab sticks. */
 const MODE = (() => {
   const q = new URLSearchParams(location.search).get("mode");
-  if (["near","auction","str","ltr","water"].includes(q)) return q;
+  if (["near","auction","flagged","str","ltr","water"].includes(q)) return q;
   const s = localStorage.getItem("hqmode");
-  return ["ltr","water","str","auction"].includes(s) ? s : "near";
+  return ["ltr","water","str","auction","flagged"].includes(s) ? s : "near";
 })();
 /* Waterfront mode is an STR view — water drives the nightly rate, not the lease. */
 const revOf = p => MODE === "ltr" ? (p.ltr || 0) : p.rev;
@@ -611,6 +612,11 @@ const TOWN_COORD = Object.fromEntries(TOWNS.map(([n,la,lo]) => [n,[la,lo]]));
 let DB = { properties: [], favorites: {}, markets: { markets: [] } };
 /* The whole board, never narrowed by a tab. Ranking surfaces read this so a
    higher yield further out can still win (Shawn, 2026-09-12). */
+/* A property is flagged if it carries a warning, its records contradict each other,
+   or its condition is known bad. Any one of these means the yield cannot be read at
+   face value, which is the whole point of separating them. */
+const IS_FLAGGED = p => !!p.flag || p.status === "verify" || p.cond === "gut" || p.cond === "rehab";
+const flagSplit = p => MODE === "flagged" ? IS_FLAGGED(p) : !IS_FLAGGED(p);
 let ALLPROPS = [];
 let MATCHFN = () => true;   // set to the live search matcher once boot wires it up
 const tip = $("#tip");
@@ -945,7 +951,7 @@ function drawMarkets(){
       if (b.dataset.mode !== MODE) { localStorage.setItem("hqmode", b.dataset.mode); location.reload(); }
     });
   });
-  ALLPROPS = DB.properties.filter(p => p.status !== "offmarket" && !p.excl);
+  ALLPROPS = DB.properties.filter(p => p.status !== "offmarket" && !p.excl).filter(flagSplit);
   if (MODE === "water") {
     /* Filter the whole dataset once — every section, the Top 10, the scatter and
        the map all read from DB.properties, so they follow automatically. */
@@ -1039,6 +1045,19 @@ function drawMarkets(){
       `occupancy or access rather than opportunity: several of the highest yields on this tab are buildings that ` +
       `cannot currently be rented, viewed, or financed. Auctions also close fast and as-is, with no contingencies.`;
   }
+  /* ---------- Flagged (added 2026-09-12 at Shawn's request) ---------- */
+  if (MODE === "flagged") {
+    const eb = document.querySelector(".mast .eyebrow");
+    if (eb) eb.textContent = "Flagged \u00b7 read the warning before the number";
+    const sub = document.querySelector(".mast .sub");
+    if (sub) sub.innerHTML =
+      `<b>${DB.properties.length} properties whose numbers cannot be taken at face value.</b> Each one carries a
+      condition warning, a record that contradicts another source, or a known gut/rehab state. They are kept off
+      every other tab on purpose: sorted by yield, a warning and a bargain look identical, and these were crowding
+      out the clean properties on the main board. <b>Nothing here is rejected</b> — several are genuinely cheap for
+      good reasons and a few are among the best things on the board once verified. But each one needs an answer
+      first, and the flag on each card says exactly which question to ask.`;
+  }
   if (MODE === "ltr") {
     $("#analyzers").style.display = "none";
     const mkt = document.querySelector("#mktbars")?.closest("section");
@@ -1067,6 +1086,9 @@ function drawMarkets(){
   /* Off-market properties stay in the DB for history/dedupe but leave the boards. */
   DB.offmarketCount = DB.properties.filter(p => p.status === "offmarket").length;
   DB.properties = DB.properties.filter(p => p.status !== "offmarket" && !p.excl);
+  /* Flagged properties live on their own tab and nowhere else (Shawn, 2026-09-12). */
+  const flaggedCount = DB.properties.filter(IS_FLAGGED).length;
+  DB.properties = DB.properties.filter(flagSplit);
   if (window.__SNAP__) {
     document.body.classList.add("snap");
     const b = document.createElement("div");
