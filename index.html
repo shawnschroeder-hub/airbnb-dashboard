@@ -286,10 +286,56 @@
     .stat .v{font-size:24px}
     h1{font-size:clamp(26px,7.5vw,34px)}
   }
+  .scopetag{font-family:system-ui,sans-serif;font-size:12.5px;font-weight:600;color:var(--ink-3);
+    letter-spacing:0;margin-left:10px;vertical-align:2px}
+  #detail{position:fixed;inset:0;z-index:80;background:rgba(5,9,16,.78);backdrop-filter:blur(5px);
+    display:flex;align-items:flex-start;justify-content:center;padding:36px 18px;overflow:auto}
+  #detail-card{position:relative;width:100%;max-width:780px;background:var(--ground);
+    border:1px solid var(--ring);border-radius:13px;padding:28px 30px 26px;
+    box-shadow:0 24px 70px -20px rgba(0,0,0,.95)}
+  #dt-close{position:absolute;top:16px;right:18px;border:1px solid var(--ring);background:var(--panel);
+    color:var(--ink-2);border-radius:7px;padding:6px 13px;font-size:12.5px;font-weight:650;cursor:pointer}
+  #dt-close:hover{color:var(--ink);border-color:var(--accent)}
+  .dt-eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+  #dt-addr{font-size:27px;line-height:1.15;margin:6px 0 0;letter-spacing:-.01em}
+  .dt-price{font-size:31px;font-weight:700;color:var(--accent);letter-spacing:-.02em;margin-top:10px}
+  .dt-price small{font-size:14px;font-weight:600;color:var(--ink-3);margin-left:8px;letter-spacing:0}
+  .dt-nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin:20px 0 0}
+  .dt-n{background:var(--panel);border:1px solid var(--ring);border-radius:8px;padding:11px 13px}
+  .dt-n .k{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+  .dt-n .v{font-size:19px;font-weight:700;margin-top:3px;letter-spacing:-.01em}
+  .dt-sec{margin-top:24px}
+  .dt-sec h4{margin:0 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  .dt-sec p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.6}
+  .dt-flag{border:1px solid rgba(255,143,69,.45);background:rgba(255,143,69,.07);border-radius:8px;
+    padding:12px 14px;font-size:13.5px;color:var(--ink-2);line-height:1.6}
+  .dt-flag b{color:var(--flag)}
+  .dt-hist{list-style:none;margin:0;padding:0;font-size:13.5px}
+  .dt-hist li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--grid)}
+  .dt-hist li:last-child{border-bottom:none}
+  .dt-hist .d{color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .dt-links{display:flex;gap:9px;flex-wrap:wrap;margin-top:4px}
+  .dt-links a{font-size:13px;font-weight:650;text-decoration:none;padding:8px 13px;border-radius:7px;
+    border:1px solid var(--ring);color:var(--ink-2);background:var(--panel)}
+  .dt-links a.primary{border-color:rgba(232,180,92,.5);color:var(--accent-ink);background:var(--wash)}
+  .dt-links a:hover{border-color:var(--accent);color:var(--ink)}
+  .addr[role="button"]{cursor:pointer;text-decoration:underline;text-decoration-color:var(--ring);
+    text-underline-offset:3px}
+  .addr[role="button"]:hover{color:var(--accent-ink);text-decoration-color:var(--accent)}
+  .dtlink{display:inline-block;margin-left:6px;color:var(--ink-3);text-decoration:none;font-size:12px;
+    line-height:1;padding:2px 6px;border:1px solid var(--ring);border-radius:5px;cursor:pointer}
+  .dtlink:hover{color:var(--accent);border-color:var(--accent)}
+  @media (max-width:640px){ #detail{padding:12px} #detail-card{padding:22px 18px} #dt-addr{font-size:22px} }
 </style>
 </head>
 <body>
 <div class="wrap">
+<div id="detail" hidden role="dialog" aria-modal="true" aria-labelledby="dt-addr">
+  <div id="detail-card" role="document">
+    <button id="dt-close" type="button" aria-label="Close">Close</button>
+    <div id="dt-body"></div>
+  </div>
+</div>
 <div id="modetabs" style="display:flex;margin:14px 0 0" role="tablist" aria-label="Board views">
   <button data-mode="near"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Near me · 35 mi</span></button>
   <button data-mode="auction"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14 3 7 7"/><path d="m17.5 6.5-8 8"/><path d="m10.5 6.5 7 7"/><path d="M4 21h10"/><path d="m6.5 18 6-6"/></svg><span>Auctions & distress</span></button>
@@ -406,9 +452,7 @@
   <div class="tier" id="tierA-wrap"><div class="tier-head"><h3 class="display">Tier A — two units or more, clearing 1%</h3><span class="tally" id="tallyA"></span></div><div class="grid" id="tierA"></div></div>
   <div class="tier" id="tierB-wrap"><div class="tier-head"><h3 class="display">Tier B — single-family, clearing 1%</h3><span class="tally" id="tallyB"></span></div><div class="grid" id="tierB"></div></div>
   <div class="tier" id="tierC-wrap"><div class="tier-head"><h3 class="display">Tier C — clears 0.75%, short of 1%</h3><span class="tally" id="tallyC"></span></div><div class="grid" id="tierC"></div></div>
-  <div class="tier" id="tierCash-wrap"><div class="tier-head"><h3 class="display">Cash-only lane</h3><span class="tally" id="tallyCash"></span></div>
-    <p class="tier-desc">Sellers accepting cash offers only — auctions, leaseholds, unfinanceable condition. Different money, different speed.</p>
-    <div class="grid" id="tierCash"></div></div>
+  
   <div class="tier" id="tierW-wrap"><div class="tier-head"><h3 class="display">Watch list — coming soon</h3><span class="tally" id="tallyW"></span></div><div class="grid" id="tierW"></div></div>
   <p class="sub" style="margin-top:18px">Looking for something specific?
     <a href="?mode=auction">Auctions &amp; distress</a>,
@@ -456,7 +500,7 @@
 
 
 <section id="analyzers">
-  <h2 class="display">Vacation Rental Deal Analyzer 5.0 results</h2>
+  <h2 class="display">Vacation Rental Deal Analyzer 5.0 results <span id="an-scope" class="scopetag"></span></h2>
   <p class="sub">One filled workbook per 1%+ property (folder: <span class="mono">Agent OS › 01 Projects › Airbnb Acquisitions › Analyzers</span>).
     Financed at 80% LTV / 30-yr / 7.0% APR. Sorted by cash-on-cash.
     <strong>Basis since 2026-07-26 (Shawn's standing rule — every analyzer, every time):</strong> nightly rates come from AirDNA market data
@@ -705,7 +749,8 @@ function cardHTML(p, opts){
     ${favBtn(p)}
     <div class="rowline"><span class="price mono">${fmt$(p.price)}</span>
       <span class="yield mono ${yCls}">${yTxt}<small style="font-size:11px;color:var(--ink-3)">/mo</small></span></div>
-    <div class="addr">${p.addr} · ${p.town}</div>
+    <div class="addr" role="button" tabindex="0" data-detail="${p.id}"
+      title="Open full details">${p.addr} · ${p.town}</div>
     <a class="rlink" href="${listingURL(p)}" target="_blank" rel="noopener">${
       /addr via agent/i.test(p.addr) ? "No public address — search this listing ↗"
       : listingSrc(p) ? `View on ${listingSrc(p)} ↗ <span style="font-weight:400;font-size:11px">(verified 7/18)</span>`
@@ -888,7 +933,7 @@ function renderAll(){
             : ""}<a class="altlink"
           href="${altURL(p)}" target="_blank" rel="noopener"
           title="Backup: look this address up on ${altLabel(p)} (use this if the first link is dead)"
-          aria-label="Search this address on ${altLabel(p)}">⌕</a></td>
+          aria-label="Search this address on ${altLabel(p)}">⌕</a><a class="dtlink" role="button" tabindex="0" data-detail="${p.id}" title="Full details">details</a></td>
       <td class="num" style="color:${p.__mi!=null&&p.__mi<=35?"var(--pass-text)":"var(--ink-3)"}">${p.__mi!=null?p.__mi:"—"}</td><td class="num">${fmt$(p.price)}</td>
       <td class="num" style="font-weight:700;color:${cf==null?"var(--ink-3)":(cf>0?"var(--pass-text)":"var(--crit)")}">${cfTxt}</td>
       <td class="num" style="color:${coc==null?"var(--ink-3)":"var(--ink-2)"}">${cocTxt}</td>
@@ -921,8 +966,10 @@ function renderAll(){
   };
   put(p=>p.tier==="A","#tierA","#tallyA");
   put(p=>p.tier==="B","#tierB","#tallyB");
-  put(p=>p.tier==="C"&&!p.cash,"#tierC","#tallyC");
-  put(p=>p.cash,"#tierCash","#tallyCash");
+  /* Cash-only was its own lane holding 3 of 27 (the rest are flagged), and it
+     double-counted: a Tier A cash-only property rendered here AND in Tier A.
+     Cash-only now lives on the Auctions tab. */
+  put(p=>p.tier==="C","#tierC","#tallyC");
   put(p=>p.tier==="W","#tierW","#tallyW");
   $("#f-count").textContent=f.length+" of "+P.length+" shown";
   /* ADU section: true accessory-dwelling properties, by yield, with a minimum-yield filter */
@@ -955,6 +1002,15 @@ function renderAll(){
      once every distressed property became flagged. Removed 2026-09-12. */
   /* analyzers */
   const ans=P.filter(p=>p.analyzer).sort((a,b)=>b.analyzer.coc-a.analyzer.coc);
+  (() => {
+    const el = document.querySelector("#an-scope");
+    if (!el) return;
+    const total = ALLPROPS.concat(DB.properties)
+      .filter((p,i,a) => a.findIndex(x=>x.id===p.id)===i && p.analyzer).length;
+    el.textContent = ans.length === total
+      ? `${total} workbooks`
+      : `${ans.length} of ${total} workbooks — the rest are on other tabs`;
+  })();
   $("#an-tbody").innerHTML=ans.map(p=>{
     const c=p.analyzer;
     const cfCol = c.cf>=50 ? "var(--pass-text)" : (c.cf<=-1 ? "var(--crit)" : "var(--ink-2)");
@@ -968,6 +1024,105 @@ function renderAll(){
   }).join("");
   drawScatter();
 }
+
+/* ---------- Per-property detail (2026-09-12) ----------
+   One property, whole: what it is, what it earns, what is wrong with it, what it cost
+   over time, and every way to open the listing. Deep-links as ?p=<id>. */
+function findProp(id){
+  const pool = ALLPROPS.concat(DB.properties);
+  return pool.find(p => p.id === id) || null;
+}
+function openDetail(id){
+  const p = findProp(id); if (!p) return;
+  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+  const y = (p.price && p.rev) ? (p.rev/p.price*100) : null;
+  const yl = (p.price && p.ltr) ? (p.ltr/p.price*100) : null;
+  const a = p.analyzer;
+  const n = (k,v,col) => `<div class="dt-n"><div class="k">${k}</div><div class="v"${col?` style="color:${col}"`:""}>${v}</div></div>`;
+  const hist = (p.priceHistory||[]).filter(x=>x&&x.d);
+  const typeLbl = p.type==="ADU" ? "Two units \u00b7 house + ADU"
+                : p.type==="MF"  ? "Two units or more \u00b7 multifamily" : "Single-family";
+
+  document.querySelector("#dt-body").innerHTML =
+    `<div class="dt-eyebrow">${esc(typeLbl)}${p.__mi!=null?" \u00b7 "+p.__mi+" miles from home":""}${p.cash?" \u00b7 Cash only":""}</div>
+     <h2 id="dt-addr">${esc(p.addr)}</h2>
+     <div class="dt-eyebrow" style="margin-top:5px;text-transform:none;letter-spacing:0;font-weight:400;font-size:13.5px">
+       ${esc(p.town)}${p.st?", "+esc(p.st):""} ${p.zip?esc(p.zip):""} \u00b7 ${esc(areaOf(p).label)}</div>
+     <div class="dt-price">${p.price?fmt$(p.price):"Price not yet listed"}
+       ${y!=null?`<small>${y.toFixed(2)}% gross yield</small>`:""}</div>
+
+     <div class="dt-nums">
+       ${n("Est. Airbnb revenue", p.rev?"$"+p.rev.toLocaleString()+"/mo":"\u2014")}
+       ${n("Long-term rent", p.ltr?"$"+p.ltr.toLocaleString()+"/mo":"\u2014")}
+       ${n("Rental yield", yl!=null?yl.toFixed(2)+"%":"\u2014")}
+       ${n("Bedrooms / baths", (p.bd??"?")+" / "+(p.ba??"?"))}
+       ${p.sf?n("Square feet", p.sf.toLocaleString()):""}
+       ${a&&typeof a.cf==="number" ? n("Cash flow, financed",
+           (a.cf<0?"\u2212$"+Math.abs(a.cf).toLocaleString():"$"+a.cf.toLocaleString())+"/mo",
+           a.cf>0?"var(--pass-text)":"var(--crit)") : ""}
+       ${a&&typeof a.coc==="number" ? n("Cash on cash", a.coc.toFixed(1)+"%") : ""}
+       ${a&&typeof a.cash==="number" ? n("Cash required", "$"+a.cash.toLocaleString()) : ""}
+     </div>
+
+     ${p.flag ? `<div class="dt-sec"><h4>Read this first</h4>
+        <div class="dt-flag"><b>Flagged.</b> ${esc(p.flag)}</div></div>` : ""}
+     ${p.status==="verify" ? `<div class="dt-sec"><div class="dt-flag">
+        <b>Records contradict each other.</b> This property is kept out of every ranking until one call settles it.</div></div>` : ""}
+
+     ${p.units ? `<div class="dt-sec"><h4>What it is</h4><p>${esc(p.units)}</p></div>` : ""}
+     ${p.note ? `<div class="dt-sec"><h4>Notes from the screen</h4><p>${esc(p.note)}</p></div>` : ""}
+
+     ${hist.length ? `<div class="dt-sec"><h4>Price history</h4><ul class="dt-hist">${
+       hist.map((x,i)=>{
+         const prev = i>0 ? hist[i-1].p : null;
+         const dl = (prev && x.p!==prev) ? ((x.p-prev)/prev*100) : null;
+         return `<li><span class="d">${x.d}</span><span>${fmt$(x.p)}${
+           dl!=null?` <b style="color:${dl<0?"var(--pass-text)":"var(--flag)"}">${dl>0?"+":""}${dl.toFixed(1)}%</b>`:""
+         }</span></li>`;}).join("")
+     }</ul>${hist.length===1?'<p style="margin-top:8px;font-size:12.5px;color:var(--ink-3)">No price change since it was first seen.</p>':""}</div>` : ""}
+
+     ${p.ltrSrc ? `<div class="dt-sec"><h4>Rent basis</h4><p>${esc(p.ltrSrc)}${p.ltrFlag?" \u2014 "+esc(p.ltrFlag):""}</p></div>` : ""}
+     ${a&&a.file ? `<div class="dt-sec"><h4>Workbook</h4><p>${esc(a.file)}<br>
+        <span style="color:var(--ink-3);font-size:12.5px">In Agent OS \u203a 01 Projects \u203a Airbnb Acquisitions \u203a Analyzers</span></p></div>` : ""}
+
+     <div class="dt-sec"><h4>Open the listing</h4>
+       <div class="dt-links">
+         <a class="primary" href="${listingURL(p)}" target="_blank" rel="noopener">${
+           listingSrc(p) ? "View on "+esc(listingSrc(p)) : "Search for this listing"} \u2197</a>
+         <a href="${googleURL(p)}" target="_blank" rel="noopener">Google \u2197</a>
+         <a href="${zillowURL(p)}" target="_blank" rel="noopener">Zillow \u2197</a>
+         <a href="https://www.realtor.com/realestateandhomes-search/${encodeURIComponent(addrQuery(p).replace(/\s+/g,"-"))}" target="_blank" rel="noopener">Realtor \u2197</a>
+       </div>
+       ${p.links&&p.links.dead?'<p style="margin-top:9px;font-size:12.5px;color:var(--flag)">The original listing link returned a dead page when last checked, so it was replaced with an address search. A removed listing sometimes means the property sold.</p>':""}
+     </div>
+
+     <div class="dt-sec"><h4>On the board since</h4>
+       <p>First seen ${esc(p.firstSeen||"unknown")}${p.lastSeen?`, last confirmed ${esc(p.lastSeen)}`:""}.
+       ${p.cond==="ok"?"Condition verified turnkey.":"Condition not yet verified \u2014 inspect before believing any number."}</p></div>`;
+
+  const box = document.querySelector("#detail");
+  box.hidden = false;
+  document.body.style.overflow = "hidden";
+  document.querySelector("#dt-close").focus();
+  try { history.replaceState(null,"", "?p="+encodeURIComponent(id)); } catch(_){}
+}
+function closeDetail(){
+  const box = document.querySelector("#detail"); if (!box || box.hidden) return;
+  box.hidden = true; document.body.style.overflow = "";
+  try { history.replaceState(null,"", location.pathname + location.search.replace(/[?&]p=[^&]*/,"").replace(/^&/,"?")); } catch(_){}
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-detail]");
+  if (t) { e.preventDefault(); openDetail(t.dataset.detail); return; }
+  if (e.target.id === "dt-close" || e.target.id === "detail") closeDetail();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeDetail();
+  const t = document.activeElement;
+  if ((e.key === "Enter" || e.key === " ") && t && t.hasAttribute && t.hasAttribute("data-detail")) {
+    e.preventDefault(); openDetail(t.dataset.detail);
+  }
+});
 
 /* ---------- charts (drawn once per render) ---------- */
 function drawScatter(){
@@ -1338,6 +1493,8 @@ function drawMarkets(){
   }));
 
   drawMap(); drawMarkets(); applyQuery();
+  const wanted = new URLSearchParams(location.search).get("p");
+  if (wanted) openDetail(wanted);
 })();
 </script>
 </body>
