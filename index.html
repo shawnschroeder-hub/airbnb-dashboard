@@ -255,6 +255,8 @@
   .altlinks{font-size:11.5px;color:var(--ink-3);margin-top:-2px}
   .altlinks a{color:var(--ink-2);text-decoration:none;border-bottom:1px dotted var(--ink-3)}
   .altlinks a:hover{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  .flagcell{max-width:320px}
+  @media (max-width:900px){ .flagcell{max-width:220px} }
 </style>
 </head>
 <body>
@@ -741,7 +743,25 @@ function renderAll(){
     rankBtn.textContent = state.rankAll ? "Show top 10 only" : `Show all ${ranked.length} ranked ↓`;
   }
   $("#top10-tbody").innerHTML = ranked.slice(0,rankShown).map((p,i)=>{
-    const extra = p.flag ? " · ⚑ "+p.flag : (p.cond==="unk" ? " · verify condition" : " · turnkey-verified");
+    /* One glanceable word, then the first clause only. Full text on hover and on the card. */
+    const esc = s => String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+    const firstClause = s => {
+      const t = String(s).replace(/\s+/g," ").trim();
+      const cut = t.search(/[.;–—]|\s-\s/);
+      const head = (cut >= 8 ? t.slice(0, cut) : t).trim();   // a short ALL-CAPS lead is the headline, keep it
+      return head.length > 92 ? head.slice(0, 89).trim() + "…" : head;
+    };
+    let mark, markCol, detail;
+    if (p.flag) {
+      const f = p.flag;
+      const severe = /DO NOT TRUST|NOT AN INVESTMENT|GUTTED|uninhabitable|cannot be entered|CONDITION WARNING|fire/i.test(f);
+      mark = severe ? "Read the flag" : "Flagged";
+      markCol = severe ? "var(--crit)" : "var(--flag)";
+      detail = firstClause(f);
+    } else if (p.cond === "unk") { mark = "Verify condition"; markCol = "var(--ink-3)"; detail = ""; }
+    else { mark = "Turnkey-verified"; markCol = "var(--pass-text)"; detail = ""; }
+    const extra = `<span style="color:${markCol};font-weight:700">${mark}</span>` +
+      (detail ? ` <span style="color:var(--ink-3)">${esc(detail)}</span>` : "");
     return `<tr><td class="num rank">${i+1}</td><td>${starCell(p)}</td>
       <td><a class="plink" href="${listingURL(p)}" target="_blank" rel="noopener"
           title="${listingSrc(p) ? "Open on "+listingSrc(p) : "Search for this listing"}"
@@ -752,7 +772,9 @@ function renderAll(){
       <td class="num" style="color:${p.__mi!=null&&p.__mi<=35?"var(--pass-text)":"var(--ink-3)"}">${p.__mi!=null?p.__mi:"—"}</td><td class="num">${fmt$(p.price)}</td>
       <td class="num">${revOf(p).toLocaleString()}</td>
       <td class="num" style="font-weight:700;color:var(--pass-text)">${yieldOf(p).toFixed(2)}%</td>
-      <td style="font-size:12.5px;color:var(--ink-2)">${(tierName[p.tier]||p.tier)+(p.cash?" · Cash-only":"")+extra}</td></tr>`;
+      <td class="flagcell" style="font-size:12.5px;color:var(--ink-2)"
+        title="${esc((tierName[p.tier]||p.tier)+(p.cash?" · Cash-only":"")+(p.flag?" — "+p.flag:""))}"
+        >${(tierName[p.tier]||p.tier)+(p.cash?" · Cash-only":"")+" · "}${extra}</td></tr>`;
   }).join("");
   /* board */
   const f = P.filter(p=>{
