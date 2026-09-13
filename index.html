@@ -766,7 +766,7 @@ function cardHTML(p, opts){
     ${favBtn(p)}
     <div class="rowline"><span class="price mono">${fmt$(p.price)}</span>
       <span class="yield mono ${yCls}">${yTxt}<small style="font-size:11px;color:var(--ink-3)">/mo</small></span></div>
-    ${aerialHTML(p, 330, 128, 18)}
+    ${aerialPlaceholder(p, 330, 128, 18)}
     <div class="addr" role="button" tabindex="0" data-detail="${p.id}"
       title="Open full details">${p.addr} · ${p.town}</div>
     <a class="rlink" href="${listingURL(p)}" target="_blank" rel="noopener">${
@@ -884,6 +884,7 @@ function renderAll(){
       </div>`;
   })();
   renderPipeline();
+  wireAerials();
   /* favorites section */
   $("#favorites").style.display = favs.length ? "" : "none";
   $("#fav-grid").innerHTML = favs.sort((a,b)=>(yieldOf(b)||0)-(yieldOf(a)||0)).map(p=>cardHTML(p,{notes:true})).join("");
@@ -1076,6 +1077,34 @@ function tileXY(lat, lon, z){
 }
 const ESRI = (z,x,y) =>
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/"+z+"/"+y+"/"+x;
+/* A card's aerial costs ~12 tile requests. Multiplied by 276 cards that is enough to
+   stall a browser before first paint, so cards get a placeholder and the tiles are
+   fetched only when the card is nearly on screen. */
+function aerialPlaceholder(p, w, hgt, z){
+  if (!p.geo || p.geo.lat == null) return "";
+  return '<div class="aerial aerial-pending" style="height:' + hgt + 'px" ' +
+    'data-aerial="' + p.id + '" data-aw="' + w + '" data-ah="' + hgt + '" data-az="' + z + '"></div>';
+}
+let aerialObserver = null;
+function wireAerials(){
+  if (!("IntersectionObserver" in window)) {           // old browser: just leave placeholders
+    return;
+  }
+  if (!aerialObserver) {
+    aerialObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        obs.unobserve(el);
+        const p = findProp(el.dataset.aerial);
+        if (!p) { el.remove(); return; }
+        const html = aerialHTML(p, +el.dataset.aw, +el.dataset.ah, +el.dataset.az);
+        if (html) el.outerHTML = html; else el.remove();
+      });
+    }, { rootMargin: "500px 0px" });                   // start a little before it is visible
+  }
+  document.querySelectorAll(".aerial-pending").forEach(el => aerialObserver.observe(el));
+}
 function aerialHTML(p, w, hgt, z){
   if (!p.geo || p.geo.lat == null) return "";
   const { x, y } = tileXY(p.geo.lat, p.geo.lon, z);
@@ -1351,6 +1380,7 @@ function drawMarkets(){
 
 /* ---------- boot ---------- */
 (async function(){
+ try {
   DB = window.__SNAP__ ?? await api("/api/data");
   /* Share bar: link comes from the market record so future markets stay correct. */
   /* Mode tabs: restyle for active mode; click switches and reloads. */
@@ -1630,6 +1660,20 @@ function drawMarkets(){
   drawMap(); drawMarkets(); applyQuery();
   const wanted = new URLSearchParams(location.search).get("p");
   if (wanted) openDetail(wanted);
+ } catch (err) {
+  /* A dark page with no explanation helps nobody. Say what broke, and give a way out. */
+  const box = document.createElement("div");
+  box.style.cssText = "max-width:760px;margin:40px auto;padding:22px 26px;background:#121C2B;" +
+    "border:1px solid rgba(150,184,226,.25);border-radius:11px;color:#EDF2F8;" +
+    "font:15px/1.6 system-ui,sans-serif";
+  box.innerHTML = "<div style='font-size:19px;font-weight:700;margin-bottom:8px'>The board could not finish loading.</div>" +
+    "<p style='color:#9DB0C6;margin:0 0 12px'>Something in the page failed rather than the data being missing. " +
+    "A hard refresh (Ctrl+Shift+R) clears a stale copy and fixes most cases.</p>" +
+    "<p style='color:#6C7F98;margin:0;font:12.5px/1.5 ui-monospace,monospace'>" +
+    String((err && err.message) || err).replace(/[<>]/g, "") + "</p>";
+  document.body.prepend(box);
+  try { console.error(err); } catch(_) {}
+ }
 })();
 </script>
 </body>
