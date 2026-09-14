@@ -710,7 +710,20 @@ let DB = { properties: [], favorites: {}, markets: { markets: [] } };
 /* A property is flagged if it carries a warning, its records contradict each other,
    or its condition is known bad. Any one of these means the yield cannot be read at
    face value, which is the whole point of separating them. */
-const IS_FLAGGED = p => !!p.flag || p.status === "verify" || p.cond === "gut" || p.cond === "rehab";
+/* NARROWED 2026-09-13. This used to read `!!p.flag || ...`, i.e. ANY caveat text in the
+   flag field moved a property off every tab except Flagged. That hid 171 of 422 live
+   properties - 41% of the board - including most of the highest-yield rows and both of
+   the 09-13 screen's best finds (1724 Ohio St at 2.21% with a disclosed rent roll, and
+   815 N 7th St Carbon Hill at 1.10% INSIDE the 35-mile ring). It also created a perverse
+   incentive: the more honestly a property was annotated, the more certainly it vanished
+   from Shawn's default view. A flag on this board is usually context worth reading (an
+   inflated market pool, amenity skew, the 3+ unit expense caveat), NOT a reason to doubt
+   the property exists or to hide it.
+   The Flagged tab's own copy says it holds "properties whose numbers cannot be taken at
+   face value" - so that is now exactly what it selects: a disputed/unverified record, a
+   gut or rehab condition, or a cash-only sale (which nearly always signals a condition
+   problem no lender will finance). Ordinary caveats stay on the card where they belong. */
+const IS_FLAGGED = p => p.status === "verify" || p.cond === "gut" || p.cond === "rehab" || p.cash === true;
 const flagSplit = p => MODE === "flagged" ? IS_FLAGGED(p) : !IS_FLAGGED(p);
 let ALLPROPS = [];
 let MATCHFN = () => true;   // set to the live search matcher once boot wires it up
@@ -1467,7 +1480,8 @@ function drawMarkets(){
     if (sub) sub.innerHTML =
       `<b>${kept.length} properties within ${NEAR_RADIUS} miles of home.</b> This is the primary view: close enough to ` +
       `drive to, check on, and actually manage. Every card shows its distance. No yield floor and no second-dwelling ` +
-      `requirement are applied here - it is the whole board, just nearer. ` +
+      `requirement are applied here. Properties whose numbers cannot be taken at face value - a disputed record, a gut ` +
+      `or rehab condition, or a cash-only sale - live on the Flagged tab instead; everything else near home is here. ` +
       `<span style="color:var(--ink-3)">Not shown on this tab: ${tooFar} ${tooFar===1?"property":"properties"} beyond ` +
       `${NEAR_RADIUS} miles` + (noCoord ? `, and ${noCoord} in a town with no map coordinates` : "") +
       `. Those are not gone - the other tabs still cover the full 100-mile ring, because a genuinely great deal further ` +
