@@ -290,6 +290,9 @@
     letter-spacing:0;margin-left:10px;vertical-align:2px}
   #detail{position:fixed;inset:0;z-index:80;background:rgba(5,9,16,.78);backdrop-filter:blur(5px);
     display:flex;align-items:flex-start;justify-content:center;padding:36px 18px;overflow:auto}
+  /* `hidden` is only a UA display:none, which the display:flex above overrides - without this
+     line an empty blurred dialog covered the whole board on every load (fixed 2026-09-29). */
+  #detail[hidden]{display:none}
   #detail-card{position:relative;width:100%;max-width:780px;background:var(--ground);
     border:1px solid var(--ring);border-radius:13px;padding:28px 30px 26px;
     box-shadow:0 24px 70px -20px rgba(0,0,0,.95)}
