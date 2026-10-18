@@ -1,0 +1,1238 @@
+[
+ {
+  "name": "423 S Rivard St",
+  "file": "analyzers/rivard-analyzer.xlsx",
+  "source": "186 - 423 S Rivard St (ACTUALS Oct25-Oct26, bank loan), Bourbonnais.xlsx",
+  "sheets": [
+   {
+    "name": "Property Details",
+    "rows": [
+     [
+      "  Property Details",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Address: 423 S Rivard St, Bourbonnais IL â€” ACTUALS Oct 2025-Oct 2026, bank loan 8% (off-market; Airbnb #36696033, 4.95x374 Guest Favorite, Top 10%)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Bed/Bath: 2/1 (sleeps 6; king + queen + air bed)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Sq Ft: TBD (county record pending)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Property Details",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Purchase Price",
+      "$200,000",
+      "None",
+      "None"
+     ],
+     [
+      "Closing Costs",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "After Repair Value",
+      "$200,000",
+      "None",
+      "None"
+     ],
+     [
+      "Annual Property Taxes",
+      "$3,170",
+      "None",
+      "None"
+     ],
+     [
+      "Annual Insurance",
+      "$1,800",
+      "None",
+      "None"
+     ],
+     [
+      "Repair Costs",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Furnishing Costs",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Conventional / Asset-Based Loan",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Loan to Value Percentage",
+      "80.0%",
+      "None",
+      "None"
+     ],
+     [
+      "Loan Amount",
+      "$160,000",
+      "None",
+      "None"
+     ],
+     [
+      "Rehab Funding",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Down Payment Amount",
+      "$40,000",
+      "None",
+      "None"
+     ],
+     [
+      "Loan Amount",
+      "$160,000",
+      "None",
+      "None"
+     ],
+     [
+      "Loan Term (Years)",
+      "30",
+      "None",
+      "None"
+     ],
+     [
+      "Loan APR",
+      "8.0%",
+      "None",
+      "None"
+     ],
+     [
+      "PMI",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan (Interest Only)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan Amount",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan ARP",
+      "10.0%",
+      "None",
+      "None"
+     ]
+    ]
+   },
+   {
+    "name": "Income and Expenses",
+    "rows": [
+     [
+      "   Income/Expense Calculations",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Address: 423 S Rivard St, Bourbonnais IL â€” ACTUALS Oct 2025-Oct 2026, bank loan 8% (off-market; Airbnb #36696033, 4.95x374 Guest Favorite, Top 10%)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "INCOME",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "None",
+      "High Season",
+      "Low Season",
+      "Total"
+     ],
+     [
+      "Average Daily Rate Unit 1",
+      "$126",
+      "$126",
+      "$126"
+     ],
+     [
+      "Average Daily Rate Unit 2",
+      "$0",
+      "$0",
+      "$0"
+     ],
+     [
+      "Average Daily Rate Unit 3",
+      "$0",
+      "$0",
+      "$0"
+     ],
+     [
+      "Average Daily Rate Unit 4",
+      "$0",
+      "$0",
+      "$0"
+     ],
+     [
+      "TOTAL",
+      "$126",
+      "$126",
+      "$126"
+     ],
+     [
+      "Occupancy %",
+      "72.1%",
+      "72.1%",
+      "72.1%"
+     ],
+     [
+      "Days Listed Each Season",
+      "182.5",
+      "182.5",
+      "365"
+     ],
+     [
+      "Season % of Year",
+      "50.0%",
+      "50.0%",
+      "100.0%"
+     ],
+     [
+      "Annual Income Total",
+      "$16,565",
+      "$16,565",
+      "$33,130"
+     ],
+     [
+      "Monthly Income Total",
+      "$2,761",
+      "$2,761",
+      "$2,761"
+     ],
+     [
+      "Cleaning Fee Charged",
+      "$100",
+      "None",
+      "None"
+     ],
+     [
+      "Amount Paid to Cleaner",
+      "$100",
+      "None",
+      "None"
+     ],
+     [
+      "Cleanings/Month High Season",
+      "6.9",
+      "None",
+      "None"
+     ],
+     [
+      "Cleanings/Month Low Seasons",
+      "6.9",
+      "None",
+      "None"
+     ],
+     [
+      "Cleaning Income Total",
+      "$8,400",
+      "None",
+      "None"
+     ],
+     [
+      "Total Annual Gross Income",
+      "$41,530",
+      "None",
+      "None"
+     ],
+     [
+      "Total Monthly Gross Income",
+      "$3,461",
+      "None",
+      "None"
+     ],
+     [
+      "Monthly Average Expenses",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Conventional/Asset Based Mortgage",
+      "-$1,174",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan (Interest Only)",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Insurance",
+      "-$150",
+      "None",
+      "None"
+     ],
+     [
+      "Property Taxes",
+      "-$264",
+      "None",
+      "None"
+     ],
+     [
+      "Cleaning",
+      "-$700",
+      "None",
+      "None"
+     ],
+     [
+      "Utilities/WIFI",
+      "-$450",
+      "None",
+      "None"
+     ],
+     [
+      "Lawn/Snow Removal ",
+      "-$125",
+      "None",
+      "None"
+     ],
+     [
+      "Consumables ",
+      "-$100",
+      "None",
+      "None"
+     ],
+     [
+      "Maintenance (AVG 2-5% Income)",
+      "-$125",
+      "None",
+      "None"
+     ],
+     [
+      "Total Monthly Average Expenses",
+      "-$3,088",
+      "None",
+      "None"
+     ]
+    ]
+   },
+   {
+    "name": "Deal Calculations",
+    "rows": [
+     [
+      "  Deal Calculations",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Total Income",
+      "$41,530",
+      "None",
+      "None"
+     ],
+     [
+      "Total Expenses",
+      "-$37,058",
+      "None",
+      "None"
+     ],
+     [
+      "Total Annual Net Cash Flow",
+      "$4,472",
+      "None",
+      "None"
+     ],
+     [
+      "Total Average Monthly Net Cash Flow",
+      "$373",
+      "None",
+      "None"
+     ],
+     [
+      "ROI (from Cash Flow)",
+      "2.2%",
+      "None",
+      "None"
+     ],
+     [
+      "Cash on Cash Return",
+      "11.2%",
+      "None",
+      "None"
+     ],
+     [
+      "Equity",
+      "$0",
+      "None",
+      "None"
+     ]
+    ]
+   }
+  ],
+  "notes": [
+   "UPDATED 2026-10-18 FROM THE SELLERS' ACTUAL EARNINGS (Airbnb earnings report + Vrbo payout summary, Oct 6 2025 - Oct 6 2026). Airbnb 'Revard' paid out 28,064.71 (178 nights, avg stay 3.1 = 57 stays) + Vrbo paid out 13,465.78 (85 nights, 27 bookings).",
+   "FINANCING: bank loan, 20% down, 8.0%, 30 years (Loan Options Board realistic band 7.5-8.5%). Closing costs not included.",
+   "INCOME: nightly rate = (actual payout - cleaning fees) / booked nights; occupancy = booked nights / 365; cleanings = actual stays. Payouts are after Airbnb/Vrbo fees, so the income total equals what was actually paid out.",
+   "CLEANING IT YOURSELF: set 'Income and Expenses' B20 (Amount Paid to Cleaner) to 0 - the guests' cleaning fee then stays with you."
+  ]
+ },
+ {
+  "name": "239 W Country Ct",
+  "file": "analyzers/country-ct-analyzer.xlsx",
+  "source": "187 - 239 W Country Ct (ACTUALS Oct25-Oct26, bank loan), Bourbonnais.xlsx",
+  "sheets": [
+   {
+    "name": "Property Details",
+    "rows": [
+     [
+      "  Property Details",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Address: 239 W Country Ct, Bourbonnais IL â€” ACTUALS Oct 2025-Oct 2026, bank loan 8% (off-market; Airbnb #36672593, 4.94x361 Guest Favorite)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Bed/Bath: 3/1 (sleeps 8; 2 king + 1 queen + air bed)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Sq Ft: TBD (county record pending)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Property Details",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Purchase Price",
+      "$225,000",
+      "None",
+      "None"
+     ],
+     [
+      "Closing Costs",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "After Repair Value",
+      "$225,000",
+      "None",
+      "None"
+     ],
+     [
+      "Annual Property Taxes",
+      "$4,800",
+      "None",
+      "None"
+     ],
+     [
+      "Annual Insurance",
+      "$1,800",
+      "None",
+      "None"
+     ],
+     [
+      "Repair Costs",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Furnishing Costs",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Conventional / Asset-Based Loan",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Loan to Value Percentage",
+      "80.0%",
+      "None",
+      "None"
+     ],
+     [
+      "Loan Amount",
+      "$180,000",
+      "None",
+      "None"
+     ],
+     [
+      "Rehab Funding",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Down Payment Amount",
+      "$45,000",
+      "None",
+      "None"
+     ],
+     [
+      "Loan Amount",
+      "$180,000",
+      "None",
+      "None"
+     ],
+     [
+      "Loan Term (Years)",
+      "30",
+      "None",
+      "None"
+     ],
+     [
+      "Loan APR",
+      "8.0%",
+      "None",
+      "None"
+     ],
+     [
+      "PMI",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan (Interest Only)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan Amount",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan ARP",
+      "10.0%",
+      "None",
+      "None"
+     ]
+    ]
+   },
+   {
+    "name": "Income and Expenses",
+    "rows": [
+     [
+      "   Income/Expense Calculations",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Address: 239 W Country Ct, Bourbonnais IL â€” ACTUALS Oct 2025-Oct 2026, bank loan 8% (off-market; Airbnb #36672593, 4.94x361 Guest Favorite)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "INCOME",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "None",
+      "High Season",
+      "Low Season",
+      "Total"
+     ],
+     [
+      "Average Daily Rate Unit 1",
+      "$130",
+      "$130",
+      "$130"
+     ],
+     [
+      "Average Daily Rate Unit 2",
+      "$0",
+      "$0",
+      "$0"
+     ],
+     [
+      "Average Daily Rate Unit 3",
+      "$0",
+      "$0",
+      "$0"
+     ],
+     [
+      "Average Daily Rate Unit 4",
+      "$0",
+      "$0",
+      "$0"
+     ],
+     [
+      "TOTAL",
+      "$130",
+      "$130",
+      "$130"
+     ],
+     [
+      "Occupancy %",
+      "72.3%",
+      "72.3%",
+      "72.3%"
+     ],
+     [
+      "Days Listed Each Season",
+      "182.5",
+      "182.5",
+      "365"
+     ],
+     [
+      "Season % of Year",
+      "50.0%",
+      "50.0%",
+      "100.0%"
+     ],
+     [
+      "Annual Income Total",
+      "$17,143",
+      "$17,143",
+      "$34,287"
+     ],
+     [
+      "Monthly Income Total",
+      "$2,857",
+      "$2,857",
+      "$2,857"
+     ],
+     [
+      "Cleaning Fee Charged",
+      "$125",
+      "None",
+      "None"
+     ],
+     [
+      "Amount Paid to Cleaner",
+      "$125",
+      "None",
+      "None"
+     ],
+     [
+      "Cleanings/Month High Season",
+      "7.56",
+      "None",
+      "None"
+     ],
+     [
+      "Cleanings/Month Low Seasons",
+      "7.56",
+      "None",
+      "None"
+     ],
+     [
+      "Cleaning Income Total",
+      "$11,500",
+      "None",
+      "None"
+     ],
+     [
+      "Total Annual Gross Income",
+      "$45,787",
+      "None",
+      "None"
+     ],
+     [
+      "Total Monthly Gross Income",
+      "$3,816",
+      "None",
+      "None"
+     ],
+     [
+      "Monthly Average Expenses",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Conventional/Asset Based Mortgage",
+      "-$1,321",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan (Interest Only)",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Insurance",
+      "-$150",
+      "None",
+      "None"
+     ],
+     [
+      "Property Taxes",
+      "-$400",
+      "None",
+      "None"
+     ],
+     [
+      "Cleaning",
+      "-$958",
+      "None",
+      "None"
+     ],
+     [
+      "Utilities/WIFI",
+      "-$450",
+      "None",
+      "None"
+     ],
+     [
+      "Lawn/Snow Removal ",
+      "-$125",
+      "None",
+      "None"
+     ],
+     [
+      "Consumables ",
+      "-$100",
+      "None",
+      "None"
+     ],
+     [
+      "Maintenance (AVG 2-5% Income)",
+      "-$135",
+      "None",
+      "None"
+     ],
+     [
+      "Total Monthly Average Expenses",
+      "-$3,639",
+      "None",
+      "None"
+     ]
+    ]
+   },
+   {
+    "name": "Deal Calculations",
+    "rows": [
+     [
+      "  Deal Calculations",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Total Income",
+      "$45,787",
+      "None",
+      "None"
+     ],
+     [
+      "Total Expenses",
+      "-$43,669",
+      "None",
+      "None"
+     ],
+     [
+      "Total Annual Net Cash Flow",
+      "$2,118",
+      "None",
+      "None"
+     ],
+     [
+      "Total Average Monthly Net Cash Flow",
+      "$176",
+      "None",
+      "None"
+     ],
+     [
+      "ROI (from Cash Flow)",
+      "0.9%",
+      "None",
+      "None"
+     ],
+     [
+      "Cash on Cash Return",
+      "4.7%",
+      "None",
+      "None"
+     ],
+     [
+      "Equity",
+      "$0",
+      "None",
+      "None"
+     ]
+    ]
+   }
+  ],
+  "notes": [
+   "UPDATED 2026-10-18 FROM THE SELLERS' ACTUAL EARNINGS (Airbnb earnings report + Vrbo payout summary, Oct 6 2025 - Oct 6 2026). Airbnb 'Arnie's place' (matched to Country Ct - confirm with Ami) paid out 35,553.20 (211 nights, avg stay 3.2 = 66 stays) + Vrbo paid out 10,233.64 (53 nights, 26 bookings). Taxes 4,800 still an estimate.",
+   "FINANCING: bank loan, 20% down, 8.0%, 30 years (Loan Options Board realistic band 7.5-8.5%). Closing costs not included.",
+   "INCOME: nightly rate = (actual payout - cleaning fees) / booked nights; occupancy = booked nights / 365; cleanings = actual stays. Payouts are after Airbnb/Vrbo fees, so the income total equals what was actually paid out.",
+   "CLEANING IT YOURSELF: set 'Income and Expenses' B20 (Amount Paid to Cleaner) to 0 - the guests' cleaning fee then stays with you."
+  ]
+ },
+ {
+  "name": "287 E Munroe St",
+  "file": "analyzers/munroe-analyzer.xlsx",
+  "source": "188 - 287 E Munroe St (ACTUALS Oct25-Oct26, bank loan), Bourbonnais.xlsx",
+  "sheets": [
+   {
+    "name": "Property Details",
+    "rows": [
+     [
+      "  Property Details",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Address: 287 E Munroe St, Bourbonnais IL 60914 â€” ACTUALS Oct 2025-Oct 2026, bank loan 8% (off-market; operating on Vrbo; the house Shawn has called \"272 E Munroe\")",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Bed/Bath: 4/1 (built 1962; Zillow zpid 76945282; 7,500 sf lot)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Sq Ft: 1,380",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Property Details",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Purchase Price",
+      "$210,000",
+      "None",
+      "None"
+     ],
+     [
+      "Closing Costs",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "After Repair Value",
+      "$210,000",
+      "None",
+      "None"
+     ],
+     [
+      "Annual Property Taxes",
+      "$4,670",
+      "None",
+      "None"
+     ],
+     [
+      "Annual Insurance",
+      "$1,800",
+      "None",
+      "None"
+     ],
+     [
+      "Repair Costs",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Furnishing Costs",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Conventional / Asset-Based Loan",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Loan to Value Percentage",
+      "80.0%",
+      "None",
+      "None"
+     ],
+     [
+      "Loan Amount",
+      "$168,000",
+      "None",
+      "None"
+     ],
+     [
+      "Rehab Funding",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Down Payment Amount",
+      "$42,000",
+      "None",
+      "None"
+     ],
+     [
+      "Loan Amount",
+      "$168,000",
+      "None",
+      "None"
+     ],
+     [
+      "Loan Term (Years)",
+      "30",
+      "None",
+      "None"
+     ],
+     [
+      "Loan APR",
+      "8.0%",
+      "None",
+      "None"
+     ],
+     [
+      "PMI",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan (Interest Only)",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan Amount",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan ARP",
+      "10.0%",
+      "None",
+      "None"
+     ]
+    ]
+   },
+   {
+    "name": "Income and Expenses",
+    "rows": [
+     [
+      "   Income/Expense Calculations",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Address: 287 E Munroe St, Bourbonnais IL 60914 â€” ACTUALS Oct 2025-Oct 2026, bank loan 8% (off-market; operating on Vrbo; the house Shawn has called \"272 E Munroe\")",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "INCOME",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "None",
+      "High Season",
+      "Low Season",
+      "Total"
+     ],
+     [
+      "Average Daily Rate Unit 1",
+      "$139",
+      "$139",
+      "$139"
+     ],
+     [
+      "Average Daily Rate Unit 2",
+      "$0",
+      "$0",
+      "$0"
+     ],
+     [
+      "Average Daily Rate Unit 3",
+      "$0",
+      "$0",
+      "$0"
+     ],
+     [
+      "Average Daily Rate Unit 4",
+      "$0",
+      "$0",
+      "$0"
+     ],
+     [
+      "TOTAL",
+      "$139",
+      "$139",
+      "$139"
+     ],
+     [
+      "Occupancy %",
+      "20.3%",
+      "20.3%",
+      "20.3%"
+     ],
+     [
+      "Days Listed Each Season",
+      "182.5",
+      "182.5",
+      "365"
+     ],
+     [
+      "Season % of Year",
+      "50.0%",
+      "50.0%",
+      "100.0%"
+     ],
+     [
+      "Annual Income Total",
+      "$5,135",
+      "$5,135",
+      "$10,269"
+     ],
+     [
+      "Monthly Income Total",
+      "$856",
+      "$856",
+      "$856"
+     ],
+     [
+      "Cleaning Fee Charged",
+      "$150",
+      "None",
+      "None"
+     ],
+     [
+      "Amount Paid to Cleaner",
+      "$150",
+      "None",
+      "None"
+     ],
+     [
+      "Cleanings/Month High Season",
+      "1.89",
+      "None",
+      "None"
+     ],
+     [
+      "Cleanings/Month Low Seasons",
+      "1.89",
+      "None",
+      "None"
+     ],
+     [
+      "Cleaning Income Total",
+      "$3,450",
+      "None",
+      "None"
+     ],
+     [
+      "Total Annual Gross Income",
+      "$13,719",
+      "None",
+      "None"
+     ],
+     [
+      "Total Monthly Gross Income",
+      "$1,143",
+      "None",
+      "None"
+     ],
+     [
+      "Monthly Average Expenses",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Conventional/Asset Based Mortgage",
+      "-$1,233",
+      "None",
+      "None"
+     ],
+     [
+      "Private Loan (Interest Only)",
+      "$0",
+      "None",
+      "None"
+     ],
+     [
+      "Insurance",
+      "-$150",
+      "None",
+      "None"
+     ],
+     [
+      "Property Taxes",
+      "-$389",
+      "None",
+      "None"
+     ],
+     [
+      "Cleaning",
+      "-$287",
+      "None",
+      "None"
+     ],
+     [
+      "Utilities/WIFI",
+      "-$450",
+      "None",
+      "None"
+     ],
+     [
+      "Lawn/Snow Removal ",
+      "-$125",
+      "None",
+      "None"
+     ],
+     [
+      "Consumables ",
+      "-$100",
+      "None",
+      "None"
+     ],
+     [
+      "Maintenance (AVG 2-5% Income)",
+      "-$135",
+      "None",
+      "None"
+     ],
+     [
+      "Total Monthly Average Expenses",
+      "-$2,869",
+      "None",
+      "None"
+     ]
+    ]
+   },
+   {
+    "name": "Deal Calculations",
+    "rows": [
+     [
+      "  Deal Calculations",
+      "None",
+      "None",
+      "None"
+     ],
+     [
+      "Total Income",
+      "$13,719",
+      "None",
+      "None"
+     ],
+     [
+      "Total Expenses",
+      "-$34,433",
+      "None",
+      "None"
+     ],
+     [
+      "Total Annual Net Cash Flow",
+      "-$20,713",
+      "None",
+      "None"
+     ],
+     [
+      "Total Average Monthly Net Cash Flow",
+      "-$1,726",
+      "None",
+      "None"
+     ],
+     [
+      "ROI (from Cash Flow)",
+      "-9.9%",
+      "None",
+      "None"
+     ],
+     [
+      "Cash on Cash Return",
+      "-49.3%",
+      "None",
+      "None"
+     ],
+     [
+      "Equity",
+      "$0",
+      "None",
+      "None"
+     ]
+    ]
+   }
+  ],
+  "notes": [
+   "UPDATED 2026-10-18 FROM THE SELLERS' ACTUAL EARNINGS (Airbnb earnings report + Vrbo payout summary, Oct 6 2025 - Oct 6 2026). Vrbo only ('272 E Munroe Ave' on Vrbo) paid out 13,719.46 (74 nights, 23 bookings); not in the Airbnb report. Any long-term rent from part of the year is NOT included. Furnishing/repairs set to 0 because it is already operating on Vrbo.",
+   "FINANCING: bank loan, 20% down, 8.0%, 30 years (Loan Options Board realistic band 7.5-8.5%). Closing costs not included.",
+   "INCOME: nightly rate = (actual payout - cleaning fees) / booked nights; occupancy = booked nights / 365; cleanings = actual stays. Payouts are after Airbnb/Vrbo fees, so the income total equals what was actually paid out.",
+   "CLEANING IT YOURSELF: set 'Income and Expenses' B20 (Amount Paid to Cleaner) to 0 - the guests' cleaning fee then stays with you."
+  ]
+ }
+]
