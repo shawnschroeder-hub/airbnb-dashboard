@@ -357,6 +357,7 @@
 </div>
 <div id="modetabs" style="display:flex;margin:14px 0 0" role="tablist" aria-label="Board views">
   <button data-mode="near"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Near me · 35 mi</span></button>
+  <button data-mode="units"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20V10l5-4 5 4v10"/><path d="M12.5 20v-7l4.5-3.5 4.5 3.5v7"/><path d="M2 20h20"/></svg><span>ADU & multi-unit</span></button>
   <button data-mode="auction"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14 3 7 7"/><path d="m17.5 6.5-8 8"/><path d="m10.5 6.5 7 7"/><path d="M4 21h10"/><path d="m6.5 18 6-6"/></svg><span>Auctions & distress</span></button>
   <button data-mode="flagged"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4.5h10.5l-1.8 3.5 1.8 3.5H5"/></svg><span>Flagged</span></button>
   <button data-mode="water"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c2.2 0 2.2 2 4.4 2s2.2-2 4.4-2 2.2 2 4.4 2 2.2-2 4.4-2"/><path d="M3 19.5c2.2 0 2.2 2 4.4 2"/><path d="M12 3c2.5 3 4 5.2 4 7a4 4 0 0 1-8 0c0-1.8 1.5-4 4-7Z"/></svg><span>Waterfront · 50 mi</span></button>
@@ -606,9 +607,9 @@ const fmtK = n => "$"+Math.round(n/1000)+"K";
    view can be linked to or bookmarked directly. Otherwise the last tab sticks. */
 const MODE = (() => {
   const q = new URLSearchParams(location.search).get("mode");
-  if (["near","auction","flagged","str","ltr","water"].includes(q)) return q;
+  if (["near","units","auction","flagged","str","ltr","water"].includes(q)) return q;
   const s = localStorage.getItem("hqmode");
-  return ["ltr","water","str","auction","flagged"].includes(s) ? s : "near";
+  return ["ltr","water","str","auction","flagged","units"].includes(s) ? s : "near";
 })();
 /* Waterfront mode is an STR view — water drives the nightly rate, not the lease. */
 const revOf = p => MODE === "ltr" ? (p.ltr || 0) : p.rev;
@@ -746,8 +747,19 @@ let DB = { properties: [], favorites: {}, markets: { markets: [] } };
    face value" - so that is now exactly what it selects: a disputed/unverified record, a
    gut or rehab condition, or a cash-only sale (which nearly always signals a condition
    problem no lender will finance). Ordinary caveats stay on the card where they belong. */
-const IS_FLAGGED = p => p.status === "verify" || p.cond === "gut" || p.cond === "rehab" || p.cash === true;
-const flagSplit = p => MODE === "flagged" ? IS_FLAGGED(p) : !IS_FLAGGED(p);
+/* WIDENED 2026-10-23 (Shawn: "one of the tabs should be for flagged and not in the main
+   search"). A flag now moves a property to the Flagged tab when it describes a real PROBLEM
+   with the property or the deal - condition (as-is, rehab, gutted, TLC, damage), a distress
+   sale (auction, foreclosure, bank-owned, short sale), a cash-only sale, or records that
+   contradict each other. The 09-13 lesson still holds for everything else: market caveats
+   (inflated AirDNA pool, amenity skew, unverified town permit rules, landlord belt, the 3+
+   unit expense template, an inferred unit mix) are NOT problems with the property, so those
+   rows stay on the main tabs and their caveat renders as a grey note, not a red flag. */
+const SERIOUS_FLAG = /\bas-?is\b|gutted|\bgut\b|rehab|\btlc\b|fixer|handyman|needs? (some |much |significant |major )?(work|repair|updat|love|cosmetic|renovat)|\bproject\b|restor|renovation|auction|foreclos|bank.owned|\breo\b|short sale|cash only|cash offers|cash-only|utilities (are )?off|not turnkey|fire|damage|\bshell\b|unfinished|uninhabitable|cannot be (entered|rented|financed)|do not trust|not an investment|condition warning|conflict|contradict|irreconcil|abatement|lead.paint|code (items|violation)|occupancy cert|leased land|land.lease/i;
+const IS_FLAGGED = p => p.status === "verify" || p.cond === "gut" || p.cond === "rehab" || p.cash === true ||
+  !!p.distress || SERIOUS_FLAG.test(p.flag || "");
+/* Auctions & distress is itself a problem-property view, so it sees flagged rows too. */
+const flagSplit = p => MODE === "flagged" ? IS_FLAGGED(p) : MODE === "auction" ? true : !IS_FLAGGED(p);
 let ALLPROPS = [];
 let MATCHFN = () => true;   // set to the live search matcher once boot wires it up
 const tip = $("#tip");
@@ -839,7 +851,8 @@ function cardHTML(p, opts){
     ${p.water?`<div class="revline" style="color:var(--accent-ink);font-weight:600">💧 ${p.water}${
       p.__mi!==undefined?` <span style="font-weight:500;color:var(--ink-3)">· ${p.__mi} mi from home</span>`:""}</div>`:""}
     ${an}
-    ${p.flag?`<div class="note" style="color:var(--crit)">⚑ ${p.flag}</div>`:""}
+    ${p.flag?(IS_FLAGGED(p)?`<div class="note" style="color:var(--crit)">⚑ ${p.flag}</div>`
+      :`<div class="note" style="color:var(--ink-2)"><b>Note:</b> ${p.flag}</div>`):""}
     ${p.note?`<div class="note">${p.note}</div>`:""}
     ${noteBlock}
   </article>`;
@@ -985,8 +998,8 @@ function renderAll(){
     if (p.flag) {
       const f = p.flag;
       const severe = /DO NOT TRUST|NOT AN INVESTMENT|GUTTED|uninhabitable|cannot be entered|CONDITION WARNING|fire/i.test(f);
-      mark = severe ? "Read the flag" : "Flagged";
-      markCol = severe ? "var(--crit)" : "var(--flag)";
+      mark = severe ? "Read the flag" : IS_FLAGGED(p) ? "Flagged" : "Note";
+      markCol = severe ? "var(--crit)" : IS_FLAGGED(p) ? "var(--flag)" : "var(--ink-2)";
       detail = firstClause(f);
     } else if (p.cond === "unk") { mark = "Verify condition"; markCol = "var(--ink-3)"; detail = ""; }
     else { mark = "Turnkey-verified"; markCol = "var(--pass-text)"; detail = ""; }
@@ -1257,7 +1270,7 @@ function openDetail(id){
      </div>
 
      ${p.flag ? `<div class="dt-sec"><h4>Read this first</h4>
-        <div class="dt-flag"><b>Flagged.</b> ${esc(p.flag)}</div></div>` : ""}
+        <div class="dt-flag"><b>${IS_FLAGGED(p) ? "Flagged." : "Note."}</b> ${esc(p.flag)}</div></div>` : ""}
      ${p.status==="verify" ? `<div class="dt-sec"><div class="dt-flag">
         <b>Records contradict each other.</b> This property is kept out of every ranking until one call settles it.</div></div>` : ""}
 
@@ -1509,6 +1522,27 @@ function drawMarkets(){
       `${NEAR_RADIUS} miles` + (noCoord ? `, and ${noCoord} in a town with no map coordinates` : "") +
       `. Those are not gone - the other tabs still cover the full 100-mile ring, because a genuinely great deal further ` +
       `out is still worth having.</span>`;
+  }
+  /* ---------- ADU & multi-unit (added 2026-10-23 at Shawn's request) ----------
+     Every property with more than one dwelling: a true ADU (guest house, in-law, coach
+     house, second cottage) or a multi-unit building, across the whole 100-mile ring.
+     Flagged rows are already split off above, so this is the clean second-unit list. */
+  if (MODE === "units") {
+    const all = DB.properties.filter(p => p.status !== "offmarket" && !p.excl);
+    const kept = all.filter(p => p.type === "ADU" || p.type === "MF");
+    kept.forEach(p => { const d = milesFromHome(p); if (d !== null) p.__mi = Math.round(d); });
+    const near = kept.filter(p => p.__mi != null && p.__mi <= 35).length;
+    const adu = kept.filter(p => p.type === "ADU").length;
+    DB.properties = kept;
+    const eb = document.querySelector(".mast .eyebrow");
+    if (eb) eb.textContent = "ADU & multi-unit · 100-mile radius";
+    const sub = document.querySelector(".mast .sub");
+    if (sub) sub.innerHTML =
+      `<b>${kept.length} properties with more than one place to live</b> - ${adu} houses with an ADU ` +
+      `(guest house, in-law suite, coach house, second cottage) and ${kept.length - adu} multi-unit buildings. ` +
+      `${near} of them are within 35 miles of home; every card shows its distance. Two units means two incomes, ` +
+      `which is why these win on financed cash flow far more often than single houses. Properties with a ` +
+      `condition, auction or records problem are on the Flagged tab instead.`;
   }
   /* ---------- Auctions & distress (added 2026-09-12 at Shawn's request) ----------
      Anything selling under duress: a recorded distress status, an explicit cash-only
