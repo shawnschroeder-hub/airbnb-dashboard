@@ -193,8 +193,11 @@
     background:transparent;color:var(--ink-3);transition:color .15s ease-out,background .15s ease-out}
   #modetabs button:hover{color:var(--ink-2);background:var(--panel-2)}
   #modetabs button svg{width:16px;height:16px;flex:0 0 auto}
+  /* A new tab wears yellow for two weeks; see NEW_TAB_UNTIL. Sits after the hover rule so it wins. */
   #modetabs button[data-active="1"]{background:var(--panel);color:var(--accent);
     border-color:var(--ring);box-shadow:inset 0 2px 0 var(--accent)}
+  #modetabs button.newtab,#modetabs button.newtab:hover{background:#FFD83D;color:#0A111C;border-color:#FFD83D}
+  #modetabs button.newtab[data-active="1"]{box-shadow:inset 0 2px 0 #0A111C}
 
   /* ---- search: the primary instrument on a 412-row board ---- */
   .searchwrap{position:sticky;top:0;z-index:40;padding:14px 0 12px;
@@ -381,7 +384,7 @@
 </div>
 <div id="modetabs" style="display:flex;margin:14px 0 0" role="tablist" aria-label="Board views">
   <button data-mode="near"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Near me · 35 mi</span></button>
-  <button data-mode="adu25"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20v-9l6-5 6 5v9"/><path d="M15.5 20v-5.5h6V20"/><path d="M1.5 20h21"/></svg><span>25-mile radius ADU, 1%</span></button>
+  <button data-mode="adu35"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20v-9l6-5 6 5v9"/><path d="M15.5 20v-5.5h6V20"/><path d="M1.5 20h21"/></svg><span>35-mile radius ADU, 1%</span></button>
   <button data-mode="units"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20V10l5-4 5 4v10"/><path d="M12.5 20v-7l4.5-3.5 4.5 3.5v7"/><path d="M2 20h20"/></svg><span>ADU & multi-unit</span></button>
   <button data-mode="auction"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14 3 7 7"/><path d="m17.5 6.5-8 8"/><path d="m10.5 6.5 7 7"/><path d="M4 21h10"/><path d="m6.5 18 6-6"/></svg><span>Auctions & distress</span></button>
   <button data-mode="flagged"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4.5h10.5l-1.8 3.5 1.8 3.5H5"/></svg><span>Flagged</span></button>
@@ -659,12 +662,16 @@ const SCOPE = (() => {
   try { return localStorage.getItem("hqscope") === "nation" ? "nation" : "local"; } catch { return "local"; }
 })();
 /* Near-me and Waterfront are distances from home, so they only exist in the local search. */
-const LOCAL_ONLY_MODES = ["near", "water", "adu25"];
+/* Shawn, 2026-11-08: new tabs are highlighted yellow for two weeks. mode -> last yellow day. */
+const NEW_TAB_UNTIL = { adu35: "2026-11-22" };
+const LOCAL_ONLY_MODES = ["near", "water", "adu35"];
 const MODE = (() => {
-  const q = new URLSearchParams(location.search).get("mode");
-  const s = localStorage.getItem("hqmode");
-  const m = ["near","adu25","units","auction","flagged","str","ltr","water"].includes(q) ? q
-          : ["ltr","water","str","auction","flagged","units","adu25"].includes(s) ? s : "near";
+  /* The tab was briefly adu25; old links and saved tabs land on its 35-mile replacement. */
+  const alias = v => v === "adu25" ? "adu35" : v;
+  const q = alias(new URLSearchParams(location.search).get("mode"));
+  const s = alias(localStorage.getItem("hqmode"));
+  const m = ["near","adu35","units","auction","flagged","str","ltr","water"].includes(q) ? q
+          : ["ltr","water","str","auction","flagged","units","adu35"].includes(s) ? s : "near";
   return SCOPE === "nation" && LOCAL_ONLY_MODES.includes(m) ? "str" : m;
 })();
 /* Filled at boot from the market records; empty until then. */
@@ -1043,8 +1050,8 @@ function renderAll(){
     ? `Ranked by what lands in your pocket each month after the mortgage, taxes, insurance and running costs.
        This is the number that decides a purchase. <b>${costedAll.length} propert${costedAll.length===1?"y has":"ies have"}
        a full cash-flow workbook</b>; the other ${uncosted} are candidates that have not been costed yet and are
-       ranked on the gross-yield tab instead. Gross yield finds candidates; cash flow picks winners. ${MODE === "adu25"
-         ? "<b>This ranking covers only this tab</b>: ADUs within 25 miles earning at least 1% a month."
+       ranked on the gross-yield tab instead. Gross yield finds candidates; cash flow picks winners. ${MODE === "adu35"
+         ? "<b>This ranking covers only this tab</b>: ADUs within 35 miles earning at least 1% a month."
          : "<b>This ranking covers the whole 100-mile board</b>, not just the current tab, so the stat cards above (which describe this tab) can legitimately name a different leader."}`
     : `Ranked on estimated monthly revenue against price. <b>This is the candidate-finder, not the decision.</b>
        A high gross yield often just means a cheap building, and roughly half of these fail once a mortgage is
@@ -1136,7 +1143,7 @@ function renderAll(){
      top slot again - the exact property the 2026-08-20 Top-10 fix was written for. */
   const adusAll=GLOBAL.filter(p=>(p.type==="ADU"||p.type==="MF")&&p.price&&p.status!=="offmarket"&&p.status!=="verify").sort((a,b)=>(yieldOf(b)||0)-(yieldOf(a)||0));
   const adus=adusAll.filter(p=>(yieldOf(p)||0)>=state.aduMin);
-  $("#adus").style.display=(adusAll.length&&MODE!=="adu25")?"":"none";   // adu25: the board above already is this list
+  $("#adus").style.display=(adusAll.length&&MODE!=="adu35")?"":"none";   // adu35: the board above already is this list
   $("#adus-grid").innerHTML=adus.map(p=>cardHTML(p)).join("");
   $("#adu-count").textContent = state.aduMin
     ? `${adus.length} of ${adusAll.length} multi-unit properties at ${state.aduMin.toFixed(2)}%/mo or better`
@@ -1638,6 +1645,10 @@ function drawMarkets(){
   document.querySelectorAll("#modetabs button").forEach(b => {
     const active = b.dataset.mode === MODE;
     if (active) b.dataset.active = "1";
+    /* Yellow through the date, then back to the regular tab colour with no republish needed. */
+    const until = NEW_TAB_UNTIL[b.dataset.mode], d = new Date();
+    const today = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    if (until && today <= until) b.classList.add("newtab");
     b.setAttribute("role", "tab");
     b.setAttribute("aria-selected", active ? "true" : "false");
     b.addEventListener("click", () => {
@@ -1726,13 +1737,13 @@ function drawMarkets(){
      Every property with more than one dwelling: a true ADU (guest house, in-law, coach
      house, second cottage) or a multi-unit building, across the whole 100-mile ring.
      Flagged rows are already split off above, so this is the clean second-unit list. */
-  /* ---------- 25-mile ADU, 1% (added 2026-11-08 at Shawn's request) ----------
+  /* ---------- 35-mile ADU, 1% (added 2026-11-08 at Shawn's request; 25 miles widened to 35 the same day) ----------
      His buy box, applied strictly: a true second dwelling on one parcel (type ADU, so not a
-     duplex or apartment building), within 25 miles of home, available now, and earning at
+     duplex or apartment building), within 35 miles of home, available now, and earning at
      least 1% of the price every month on Airbnb revenue. Nothing below 1% appears, however
      close. ALLPROPS narrows too, so the Top 10 cannot bring in anything outside the box. */
-  if (MODE === "adu25") {
-    const RADIUS = 25, MIN_YIELD = 1;
+  if (MODE === "adu35") {
+    const RADIUS = 35, MIN_YIELD = 1;
     const within = p => { const d = milesFromHome(p); return d !== null && d <= RADIUS; };
     const hits = p => p.price && p.rev / p.price * 100 >= MIN_YIELD;
     /* A second kitchen with no stated separate entrance is not yet a second dwelling, and its
@@ -1750,7 +1761,7 @@ function drawMarkets(){
     DB.properties = kept;
     ALLPROPS = kept.slice();
     const eb = document.querySelector(".mast .eyebrow");
-    if (eb) eb.textContent = "25-mile radius ADU, 1% · Bourbonnais, Illinois";
+    if (eb) eb.textContent = "35-mile radius ADU, 1% · Bourbonnais, Illinois";
     const sub = document.querySelector(".mast .sub");
     if (sub) sub.innerHTML =
       `<b>${kept.length} ${kept.length === 1 ? "property" : "properties"} within ${RADIUS} miles of home</b> that pass all ` +
@@ -1763,7 +1774,7 @@ function drawMarkets(){
     const tc = document.querySelector("#tierC-wrap h3");
     if (tc) tc.textContent = "Tier C — clears 1%, read the caution on the card";
     const rn = document.querySelector(".rankbar .chart-note");
-    if (rn) rn.innerHTML = "Ranked within this tab only: ADUs within 25 miles earning at least 1% a month.";
+    if (rn) rn.innerHTML = "Ranked within this tab only: ADUs within 35 miles earning at least 1% a month.";
     ['[data-f="second"]', '[data-f="sfh"]', '[data-f="near"]'].forEach(s => {
       const c = document.querySelector("#board .chip" + s); if (c) c.style.display = "none"; });
   }
