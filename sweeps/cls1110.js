@@ -2,7 +2,11 @@ window.__CFG = {"id":"cls1110","slim":true,"items":[{"key":"409-s-buchanan-st-61
 (() => {
   const CFG = window.__CFG;
   const S = window.__HQ = { id: CFG.id, state: "running", done: 0, total: CFG.items.length, errors: [] };
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const sleep = (() => { try {
+    const w = new Worker(URL.createObjectURL(new Blob(["onmessage=e=>setTimeout(()=>postMessage(e.data[0]),e.data[1])"], { type: "text/javascript" })));
+    let n = 0; const cb = new Map(); w.onmessage = e => { const f = cb.get(e.data); cb.delete(e.data); if (f) f(); };
+    return ms => new Promise(r => { const id = ++n; cb.set(id, r); w.postMessage([id, ms]); });
+  } catch (e) { return ms => new Promise(r => setTimeout(r, ms)); } })();
   let last = 0;
   const pause = async () => { const w = 2500 + Math.random() * 2000 - (Date.now() - last); if (w > 0) await sleep(w); };
   const ascii = s => s.replace(/[^\x00-\x7e]/g, c => "\\u" + ("000" + c.charCodeAt(0).toString(16)).slice(-4));
