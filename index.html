@@ -404,8 +404,7 @@
 </div>
 <div id="modetabs" style="display:flex;margin:14px 0 0" role="tablist" aria-label="Board views">
   <button data-mode="near"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Near me · 35 mi</span></button>
-  <button data-mode="adu35"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20v-9l6-5 6 5v9"/><path d="M15.5 20v-5.5h6V20"/><path d="M1.5 20h21"/></svg><span>35-mile radius ADU, 1%</span></button>
-  <button data-mode="class"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6-4.5-4.2 6.1-.7Z"/></svg><span>Class net rule 0.75%+</span></button>
+  <button data-mode="adu35"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20v-9l6-5 6 5v9"/><path d="M15.5 20v-5.5h6V20"/><path d="M1.5 20h21"/></svg><span>35-mile radius ADU, 1%</span></button>
   <button data-mode="units"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20V10l5-4 5 4v10"/><path d="M12.5 20v-7l4.5-3.5 4.5 3.5v7"/><path d="M2 20h20"/></svg><span>ADU & multi-unit</span></button>
   <button data-mode="auction"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14 3 7 7"/><path d="m17.5 6.5-8 8"/><path d="m10.5 6.5 7 7"/><path d="M4 21h10"/><path d="m6.5 18 6-6"/></svg><span>Auctions & distress</span></button>
   <button data-mode="flagged"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4.5h10.5l-1.8 3.5 1.8 3.5H5"/></svg><span>Flagged</span></button>
@@ -685,15 +684,15 @@ const SCOPE = (() => {
 })();
 /* Near-me and Waterfront are distances from home, so they only exist in the local search. */
 /* Shawn, 2026-11-08: new tabs are highlighted yellow for two weeks. mode -> last yellow day. */
-const NEW_TAB_UNTIL = { adu35: "2026-11-22", class: "2026-11-24" };
+const NEW_TAB_UNTIL = { adu35: "2026-11-22" };
 const LOCAL_ONLY_MODES = ["near", "water", "adu35"];
 const MODE = (() => {
   /* The tab was briefly adu25; old links and saved tabs land on its 35-mile replacement. */
   const alias = v => v === "adu25" ? "adu35" : v;
   const q = alias(new URLSearchParams(location.search).get("mode"));
   const s = alias(localStorage.getItem("hqmode"));
-  const m = ["near","adu35","class","units","auction","flagged","str","ltr","water"].includes(q) ? q
-          : ["ltr","water","str","auction","flagged","units","adu35","class"].includes(s) ? s : "near";
+  const m = ["near","adu35","units","auction","flagged","str","ltr","water"].includes(q) ? q
+          : ["ltr","water","str","auction","flagged","units","adu35"].includes(s) ? s : "near";
   return SCOPE === "nation" && LOCAL_ONLY_MODES.includes(m) ? "str" : m;
 })();
 /* Filled at boot from the market records; empty until then. */
@@ -1878,44 +1877,7 @@ function drawMarkets(){
     ['[data-f="second"]', '[data-f="sfh"]', '[data-f="near"]'].forEach(s => {
       const c = document.querySelector("#board .chip" + s); if (c) c.style.display = "none"; });
   }
-  /* ---------- Class net rule 0.75%+ (added 2026-11-10 at Shawn's request) ----------
-     "Look at the deals I have from Amy... they range from 0.29 to 0.49. Find me properties that are .75% and
-     higher. Ideally 1% and higher. Highlight those ones." His Living Off Rentals deals measure NET monthly cash
-     flow / price on full financing (CLASS_RULE), a much harder bar than gross rent / price. Same standing order
-     as the ADU tab: only listings confirmed for sale, with photos and a working link, are recommended. */
-  if (MODE === "class") {
-    const ready = p => hasPhotos(p) && !!(p.links && p.links.live);
-    const tiered = DB.properties.filter(p => classTier(p));
-    const kept = tiered.filter(p => p.status === "active" && ready(p))
-      .sort((a, b) => CLASS_RULE(b).rule - CLASS_RULE(a).rule);
-    const ideal = kept.filter(p => classTier(p) === "ideal").length;
-    const pending = tiered.filter(p => p.status === "pending").length;
-    const unchecked = tiered.filter(p => p.status === "active" && !ready(p)).length;
-    const cheap = DB.properties.filter(p => p.price && p.price < CLASS_MIN_PRICE && (CLASS_RULE(p) || {}).rule >= CLASS_MIN).length;
-    const gone = (DB.allScopes || []).filter(p => (SCOPE === "nation") === NATKEYS.has(p.market) && p.status === "offmarket" &&
-      p.links && p.links.checked >= "2026-11-10" && p.price >= CLASS_MIN_PRICE && (CLASS_RULE(p) || {}).rule >= CLASS_MIN).length;
-    kept.forEach(p => { const d = milesFromHome(p); if (d !== null) p.__mi = Math.round(d); });
-    DB.properties = kept;
-    ALLPROPS = kept.slice();
-    const eb = document.querySelector(".mast .eyebrow");
-    if (eb) eb.textContent = "Class net rule 0.75%+ · " + (SCOPE === "nation" ? "Nationwide" : "Local, 100-mile radius");
-    const sub = document.querySelector(".mast .sub");
-    if (sub) sub.innerHTML =
-      `<b>${kept.length} ${kept.length === 1 ? "property" : "properties"} at 0.75% or better on your class's 1% net rule</b>, ` +
-      `<b style="color:#FFD83D">${ideal} of them at 1% or better</b> (bright yellow border; 0.75–1% have a softer yellow one). ` +
-      `This is the same test as the Amy deals on the Living Off Rentals site, which come in at 0.29–0.49%: monthly cash flow ` +
-      `after the mortgage, the private loan for the down payment, taxes, insurance, utilities and cleaning, divided by the price. ` +
-      `Each card shows that math. Every property here is confirmed for sale today with listing photos and a working link. ` +
-      `<span style="color:var(--ink-3)">Rent is this dashboard's Airbnb estimate for the market, which runs below the comp-based ` +
-      `numbers on your class deals, so treat these as the ones worth running through the analyzer, not finished deals. ` +
-      `Left out: ${pending} under contract, ${gone} found sold or off market on the listing check, ` +
-      (unchecked ? `${unchecked} whose listing couldn't be confirmed with photos and a working link, ` : "") +
-      `${cheap} priced under $75K (a market-average rent estimate isn't believable there and banks rarely lend 80%), ` +
-      `and anything on the Flagged tab.</span>`;
-    const rn = document.querySelector(".rankbar .chart-note");
-    if (rn) rn.innerHTML = "Ranked within this tab only: listings at 0.75%+ on the class net rule.";
-    state.sort = "class"; const fsel = $("#f-sort"); if (fsel) fsel.value = "class";
-  }
+  /* The "Class net rule 0.75%+" tab (added 2026-11-10) was removed the same day at Shawn's request: "you can remove the class net rule 0.75% from my main dashboard." Old ?mode=class links fall back to the default tab. */
   if (MODE === "units") {
     const all = DB.properties.filter(p => p.status !== "offmarket" && !p.excl);
     const kept = all.filter(p => p.type === "ADU" || p.type === "MF");
