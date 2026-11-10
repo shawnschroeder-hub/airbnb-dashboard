@@ -404,7 +404,7 @@
 </div>
 <div id="modetabs" style="display:flex;margin:14px 0 0" role="tablist" aria-label="Board views">
   <button data-mode="near"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Near me · 35 mi</span></button>
-  <button data-mode="adu35"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20v-9l6-5 6 5v9"/><path d="M15.5 20v-5.5h6V20"/><path d="M1.5 20h21"/></svg><span>35-mile radius ADU, 1%</span></button>
+  <button data-mode="adu35"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20v-9l6-5 6 5v9"/><path d="M15.5 20v-5.5h6V20"/><path d="M1.5 20h21"/></svg><span>35-mile radius ADU, 1%</span></button>
   <button data-mode="units"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 20V10l5-4 5 4v10"/><path d="M12.5 20v-7l4.5-3.5 4.5 3.5v7"/><path d="M2 20h20"/></svg><span>ADU & multi-unit</span></button>
   <button data-mode="auction"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14 3 7 7"/><path d="m17.5 6.5-8 8"/><path d="m10.5 6.5 7 7"/><path d="M4 21h10"/><path d="m6.5 18 6-6"/></svg><span>Auctions & distress</span></button>
   <button data-mode="flagged"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4.5h10.5l-1.8 3.5 1.8 3.5H5"/></svg><span>Flagged</span></button>
@@ -533,7 +533,6 @@
       <option value="price">Sort: price (low→high)</option>
       <option value="rev">Sort: est. revenue</option>
       <option value="coc">Sort: cash-on-cash</option>
-      <option value="class">Sort: class net rule %</option>
     </select>
     <label class="tog"><input type="checkbox" id="f-rural"> Hide “Kankakee mailing address” rural parcels</label>
     <span class="count-note" id="f-count"></span>
@@ -975,7 +974,7 @@ function cardHTML(p, opts){
         onchange="saveNote('${p.id}', this.value)">${myNote.replace(/</g,"&lt;")}</textarea>
       <div class="notehint">Notes save automatically when you click away.</div></div>`
     : (myNote ? `<div class="note">📝 ${myNote.replace(/</g,"&lt;")}</div>` : "");
-  return `<article class="card ${isFav(p.id)?"faved":""} ${MODE==="ltr"||!classTier(p)?"":"cls-"+classTier(p)}">
+  return `<article class="card ${isFav(p.id)?"faved":""}">
     ${favBtn(p)}
     <div class="rowline"><span class="price mono">${fmt$(p.price)}</span>
       <span class="yield mono ${yCls}">${yTxt}<small style="font-size:11px;color:var(--ink-3)">/mo</small></span></div>
@@ -1011,7 +1010,6 @@ function cardHTML(p, opts){
       <span class="areachip" style="margin-left:8px"><span class="dot" style="background:var(${areaOf(p).slot})"></span>${areaOf(p).label.split(" (")[0]}</span></div>
     ${p.water?`<div class="revline" style="color:var(--accent-ink);font-weight:600">💧 ${p.water}${
       p.__mi!==undefined?` <span style="font-weight:500;color:var(--ink-3)">· ${p.__mi} mi from home</span>`:""}</div>`:""}
-    ${MODE==="ltr"?"":classLine(p)}
     ${an}
     ${p.flag?(IS_FLAGGED(p)?`<div class="note" style="color:var(--crit)">⚑ ${p.flag}</div>`
       :`<div class="note" style="color:var(--ink-2)"><b>Note:</b> ${p.flag}</div>`):""}
